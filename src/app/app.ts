@@ -6,10 +6,11 @@ import { HttpClient } from '@angular/common/http';
 import { Student } from '../shared/entities';
 import { CommonModule } from '@angular/common';
 import { StudentsTable } from './students-table/students-table';
+import { AddForm } from "./add-form/add-form";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Toolbar, Navbar, CommonModule, StudentsTable],
+  imports: [RouterOutlet, Toolbar, Navbar, CommonModule, StudentsTable, AddForm],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -22,6 +23,10 @@ export class App implements OnInit {
       this.http.get<Student[]>('mocks/students.json').subscribe(data => {
         this.students = data;
     });
+  }
+
+  addStudent(student: Student) {
+    this.students = [...this.students, student];
   }
 
 }
