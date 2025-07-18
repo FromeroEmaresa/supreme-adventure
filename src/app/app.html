@@ -1,13 +1,17 @@
-<div class="container"> 
+<div class="container">
   <app-toolbar class="toolbar"></app-toolbar>
   <app-navbar class="navbar"></app-navbar>
+
   <div class="content">
-    
-    
-    <app-students-table [students]="students"></app-students-table>
-
-
+    <app-students-table 
+      [students]="students"
+      (eliminar)="eliminarEstudiante($event)"
+      (editar)="editarEstudiante($event)">
+    </app-students-table>
   </div>
 
-  <app-add-form (studentAdded)="addStudent($event)"></app-add-form>
+  <app-add-form 
+    [estudianteEditar]="estudianteParaEditar"
+    (studentAdded)="addStudent($event)">
+  </app-add-form>
 </div>

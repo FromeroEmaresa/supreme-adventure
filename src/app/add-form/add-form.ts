@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Student } from '../../shared/entities';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -14,6 +14,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class AddForm implements OnInit {
   studentForm!: FormGroup;
   @Output() studentAdded = new EventEmitter<Student>();
+  @Input() estudianteEditar?: Student;
 
   constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {}
 
@@ -49,4 +50,17 @@ export class AddForm implements OnInit {
   onReset() {
     this.studentForm.reset();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+  if (changes['estudianteEditar'] && this.estudianteEditar) {
+    this.studentForm.setValue({
+      dni: this.estudianteEditar.dni,
+      name: this.estudianteEditar.name,
+      surname: this.estudianteEditar.surname,
+      age: this.estudianteEditar.age,
+      average: this.estudianteEditar.average
+    });
+    }
+  }
+
 }

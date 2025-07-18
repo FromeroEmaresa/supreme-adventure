@@ -29,4 +29,14 @@ export class App implements OnInit {
     this.students = [...this.students, student];
   }
 
+  eliminarEstudiante(estudiante: Student) {
+  this.students = this.students.filter(s => s !== estudiante);
+  }
+
+  estudianteParaEditar?: Student;
+  editarEstudiante(estudiante: Student) {
+  this.estudianteParaEditar = { ...estudiante }; // Copia para no modificar directamente
+  }
+
+
 }

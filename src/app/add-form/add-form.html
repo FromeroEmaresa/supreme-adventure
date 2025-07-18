@@ -1,78 +1,83 @@
-<div class="add-form">
-    <h2>Añadir Estudiante</h2>
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Añadir Estudiante</h4>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="dni" class="form-label">DNI:</label>
+          <input
+            type="text"
+            id="dni"
+            class="form-control"
+            formControlName="dni"
+            [class.is-invalid]="studentForm.get('dni')?.invalid && studentForm.get('dni')?.touched"
+            placeholder="Ingrese el DNI" />
+          <div class="invalid-feedback">DNI es requerido.</div>
+        </div>
 
-    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="dni">DNI:</label>
-                <input
-                    type="text"
-                    id="dni"
-                    formControlName="dni"
-                    placeholder="Ingrese el DNI">
-                <div *ngIf="studentForm.get('dni')?.invalid && studentForm.get('dni')?.touched" class="error">
-                    DNI es requerido
-                </div>
-            </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Nombre:</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            formControlName="name"
+            [class.is-invalid]="studentForm.get('name')?.invalid && studentForm.get('name')?.touched"
+            placeholder="Ingrese el nombre" />
+          <div class="invalid-feedback">Nombre es requerido.</div>
+        </div>
 
-            <div class="form-group">
-                <label for="name">Nombre:</label>
-                <input
-                    type="text"
-                    id="name"
-                    formControlName="name"
-                    placeholder="Ingrese el Nombre">
-                <div *ngIf="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" class="error">
-                    Nombres es requerido
-                </div>
-            </div>
+        <div class="mb-3">
+          <label for="surname" class="form-label">Apellido:</label>
+          <input
+            type="text"
+            id="surname"
+            class="form-control"
+            formControlName="surname"
+            [class.is-invalid]="studentForm.get('surname')?.invalid && studentForm.get('surname')?.touched"
+            placeholder="Ingrese el apellido" />
+          <div class="invalid-feedback">Apellido es requerido.</div>
+        </div>
 
-            <div class="form-group">
-                <label for="surname">Apellido:</label>
-                <input
-                    type="text"
-                    id="surname"
-                    formControlName="surname"
-                    placeholder="Ingrese el Apellido">
-                <div *ngIf="studentForm.get('surname')?.invalid && studentForm.get('surname')?.touched" class="error">
-                    Apellido es requerido
-                </div>
-            </div>
+        <div class="mb-3">
+          <label for="age" class="form-label">Edad:</label>
+          <input
+            type="number"
+            id="age"
+            class="form-control"
+            formControlName="age"
+            [class.is-invalid]="studentForm.get('age')?.invalid && studentForm.get('age')?.touched"
+            placeholder="Ingrese la edad"
+            min="0" />
+          <div class="invalid-feedback">Edad es requerida y debe ser mayor o igual a 0.</div>
+        </div>
 
-            <div class="form-group">
-                <label for="age">Edad:</label>
-                <input
-                    type="number"
-                    id="age"
-                    formControlName="age"
-                    placeholder="Ingrese la Edad">
-                <div *ngIf="studentForm.get('age')?.invalid && studentForm.get('age')?.touched" class="error">
-                    Edad es requerida y debe ser mayor a 0
-                </div>
-            </div>
+        <div class="mb-3">
+          <label for="average" class="form-label">Promedio:</label>
+          <input
+            type="number"
+            id="average"
+            class="form-control"
+            formControlName="average"
+            [class.is-invalid]="studentForm.get('average')?.invalid && studentForm.get('average')?.touched"
+            placeholder="Ingrese el promedio"
+            min="0"
+            max="10"
+            step="0.1" />
+          <div class="invalid-feedback">Promedio es requerido (0 a 10).</div>
+        </div>
 
-            <div class="form-group">
-                <label for="average">Promedio:</label>
-                <input
-                    type="number"
-                    id="average"
-                    formControlName="average"
-                    placeholder="Ingrese el promedio">  
-            </div>
-
-            <button
-                type="submit"
-                [disabled]="studentForm.invalid"
-                class="submit-btn">
-                Añadir Estudiante
-            </button>
-
-            <button
-                type="button"
-                (click)="onReset()"
-                class="reset-btn">
-                Limpiar Formulario
-            </button>
-    </form>
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary" [disabled]="studentForm.invalid">
+            <i class="bi bi-plus-circle"></i> Añadir Estudiante
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="onReset()">
+            <i class="bi bi-arrow-counterclockwise"></i> Limpiar Formulario
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
-
-{{ studentForm.value | json }}
