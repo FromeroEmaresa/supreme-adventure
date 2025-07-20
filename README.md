@@ -1,59 +1,103 @@
-# FromeroE01
+# FromeroE01 - Sistema de Gestión de Estudiantes
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
+Este proyecto es una aplicación web desarrollada en **Angular 20** que permite gestionar información de estudiantes de manera interactiva.
 
-## Development server
+## 🎯 Funcionalidades del Sistema
 
-To start a local development server, run:
+### 📊 **Tabla de Estudiantes**
+- Muestra una lista completa de todos los estudiantes registrados
+- Visualiza: nombre completo, edad, DNI y promedio académico
+- Interfaz moderna con Angular Material Table
 
+### ➕ **Agregar Estudiantes**
+- Formulario completo para registrar nuevos estudiantes
+- Validación en tiempo real de todos los campos
+- Campos requeridos: DNI, nombre, apellido, edad y promedio
+
+### ✏️ **Editar Estudiantes**
+- Funcionalidad de edición inline
+- Formulario reutilizable para modificar datos existentes
+- Actualización automática de la información
+
+### 🗑️ **Eliminar Estudiantes**
+- Opción para eliminar estudiantes de la lista
+- Confirmación de eliminación
+- Actualización inmediata de la tabla
+
+### ✅ **Validaciones Implementadas**
+- **DNI:** Campo obligatorio
+- **Nombre:** Campo obligatorio  
+- **Apellido:** Campo obligatorio
+- **Edad:** Obligatorio, mínimo 0 años
+- **Promedio:** Obligatorio, rango de 0 a 10
+
+### 🎨 **Características Técnicas**
+- **Framework:** Angular 20 con TypeScript
+- **UI:** Angular Material + Bootstrap
+- **Formularios:** Reactive Forms con validación
+- **Datos:** Carga desde archivo JSON mock
+- **Responsive:** Compatible con móviles y desktop
+
+## 🚀 Cómo Usar
+
+### Instalación
+```bash
+npm install
+```
+
+### Ejecutar en Desarrollo
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Abre tu navegador en `http://localhost:4200/`
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
+### Construir para Producción
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 📁 Estructura del Proyecto
 
-## Running unit tests
+```
+src/
+├── app/
+│   ├── add-form/          # Formulario de gestión
+│   ├── students-table/    # Tabla de estudiantes  
+│   ├── navbar/            # Barra de navegación
+│   ├── toolbar/           # Barra de herramientas
+│   └── app.ts             # Componente principal
+├── shared/
+│   ├── entities.ts        # Interfaces de datos
+│   └── pipes/             # Pipes personalizados
+└── public/mocks/
+    └── students.json      # Datos de ejemplo
+```
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## 🛠️ Tecnologías Utilizadas
 
+- **Angular 20** - Framework principal
+- **Angular Material** - Componentes de UI
+- **Bootstrap** - Framework CSS
+- **TypeScript** - Lenguaje de programación
+- **RxJS** - Programación reactiva
+
+---
+
+*Proyecto generado con [Angular CLI](https://github.com/angular/angular-cli) versión 20.0.3.*
+
+## 🧪 Testing
+
+### Ejecutar Tests Unitarios
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
+### Ejecutar Tests End-to-End
 ```bash
 ng e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 📚 Recursos Adicionales
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para más información sobre Angular CLI, visita la [Documentación Oficial de Angular](https://angular.dev/tools/cli).
