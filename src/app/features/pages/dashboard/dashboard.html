@@ -1,0 +1,68 @@
+<div class="dashboard-container">
+  <h1 class="dashboard-title">Dashboard</h1>
+  
+  <div class="stats-grid" *ngIf="statistics$ | async as stats">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-content">
+          <mat-icon class="stat-icon">people</mat-icon>
+          <div class="stat-info">
+            <h3>{{ stats.total }}</h3>
+            <p>Total Estudiantes</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-content">
+          <mat-icon class="stat-icon">cake</mat-icon>
+          <div class="stat-info">
+            <h3>{{ stats.averageAge }}</h3>
+            <p>Edad Promedio</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-content">
+          <mat-icon class="stat-icon">grade</mat-icon>
+          <div class="stat-info">
+            <h3>{{ stats.averageGrade }}</h3>
+            <p>Promedio General</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card" *ngIf="stats.topStudent">
+      <mat-card-content>
+        <div class="stat-content">
+          <mat-icon class="stat-icon">star</mat-icon>
+          <div class="stat-info">
+            <h3>{{ stats.topStudent.average }}</h3>
+            <p>Mejor Promedio</p>
+            <small>{{ stats.topStudent.name }} {{ stats.topStudent.surname }}</small>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="welcome-section">
+    <mat-card>
+      <mat-card-content>
+        <h2>Bienvenido al Sistema de Gestión de Estudiantes</h2>
+        <p>Utiliza el menú lateral para navegar por las diferentes secciones del sistema.</p>
+        <ul>
+          <li><strong>Estudiantes:</strong> Ver y gestionar la lista de estudiantes</li>
+          <li><strong>Agregar Estudiante:</strong> Registrar nuevos estudiantes</li>
+          <li><strong>Estadísticas:</strong> Ver reportes detallados</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> 

@@ -1,0 +1,142 @@
+<div class="statistics-page">
+  <h1 class="page-title">Estadísticas Detalladas</h1>
+
+  <!-- Resumen General -->
+  <div class="stats-summary" *ngIf="statistics$ | async as stats">
+    <mat-card class="summary-card">
+      <mat-card-header>
+        <mat-card-title>Resumen General</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <mat-icon>people</mat-icon>
+            <div class="summary-info">
+              <h3>{{ stats.total }}</h3>
+              <p>Total Estudiantes</p>
+            </div>
+          </div>
+          <div class="summary-item">
+            <mat-icon>cake</mat-icon>
+            <div class="summary-info">
+              <h3>{{ stats.averageAge }}</h3>
+              <p>Edad Promedio</p>
+            </div>
+          </div>
+          <div class="summary-item">
+            <mat-icon>grade</mat-icon>
+            <div class="summary-info">
+              <h3>{{ stats.averageGrade }}</h3>
+              <p>Promedio General</p>
+            </div>
+          </div>
+          <div class="summary-item" *ngIf="stats.topStudent">
+            <mat-icon>star</mat-icon>
+            <div class="summary-info">
+              <h3>{{ stats.topStudent.average }}</h3>
+              <p>Mejor Promedio</p>
+              <small>{{ stats.topStudent.name }} {{ stats.topStudent.surname }}</small>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Distribución de Calificaciones -->
+  <div class="distribution-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Distribución de Calificaciones</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="distribution-list" *ngIf="gradeDistribution$ | async as gradeDist">
+          <div class="distribution-item" *ngFor="let item of gradeDist">
+            <div class="distribution-bar">
+              <div class="bar-fill" 
+                   [style.width.%]="item.percentage"
+                   [style.background-color]="getGradeColor(item.grade)">
+              </div>
+            </div>
+            <div class="distribution-info">
+              <span class="grade-label">{{ item.grade }}</span>
+              <span class="grade-count">{{ item.count }} estudiantes ({{ item.percentage }}%)</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Distribución de Edades -->
+  <div class="distribution-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Distribución por Edades</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="distribution-list" *ngIf="ageDistribution$ | async as ageDist">
+          <div class="distribution-item" *ngFor="let item of ageDist">
+            <div class="distribution-bar">
+              <div class="bar-fill age-bar" 
+                   [style.width.%]="item.percentage">
+              </div>
+            </div>
+            <div class="distribution-info">
+              <span class="age-label">{{ item.range }}</span>
+              <span class="age-count">{{ item.count }} estudiantes ({{ item.percentage }}%)</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Lista de Estudiantes -->
+  <div class="students-list-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Lista Completa de Estudiantes</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="(students$ | async) as students; else noStudents">
+          <table mat-table [dataSource]="students" class="students-table">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let element"> {{ element.name | fullname:element.surname }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="age">
+            <th mat-header-cell *matHeaderCellDef> Edad </th>
+            <td mat-cell *matCellDef="let element"> {{ element.age }} años </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dni">
+            <th mat-header-cell *matHeaderCellDef> DNI </th>
+            <td mat-cell *matCellDef="let element"> {{ element.dni }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="average">
+            <th mat-header-cell *matHeaderCellDef> Promedio </th>
+            <td mat-cell *matCellDef="let element"> 
+              <span class="average-badge" [class]="getAverageClass(element.average)">
+                {{ element.average }}
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['name', 'age', 'dni', 'average']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['name', 'age', 'dni', 'average'];"></tr>
+          </table>
+        </div>
+
+        <ng-template #noStudents>
+          <div class="no-data">
+            <mat-icon>people_outline</mat-icon>
+            <p>No hay estudiantes para mostrar</p>
+          </div>
+        </ng-template>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> 
