@@ -1,0 +1,115 @@
+<div class="form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>person_add</mat-icon>
+        Agregar Nuevo Estudiante
+      </mat-card-title>
+      <mat-card-subtitle>
+        Complete todos los campos para registrar un nuevo estudiante
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>DNI</mat-label>
+            <input matInput 
+                   formControlName="dni" 
+                   placeholder="12345678"
+                   maxlength="8"
+                   type="text">
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-error *ngIf="studentForm.get('dni')?.invalid && studentForm.get('dni')?.touched">
+              {{ getErrorMessage('dni') }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Nombre</mat-label>
+            <input matInput 
+                   formControlName="name" 
+                   placeholder="Juan"
+                   type="text">
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="studentForm.get('name')?.invalid && studentForm.get('name')?.touched">
+              {{ getErrorMessage('name') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Apellido</mat-label>
+            <input matInput 
+                   formControlName="surname" 
+                   placeholder="Pérez"
+                   type="text">
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="studentForm.get('surname')?.invalid && studentForm.get('surname')?.touched">
+              {{ getErrorMessage('surname') }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Edad</mat-label>
+            <input matInput 
+                   formControlName="age" 
+                   placeholder="20"
+                   type="number"
+                   min="16"
+                   max="100">
+            <mat-icon matSuffix>cake</mat-icon>
+            <mat-error *ngIf="studentForm.get('age')?.invalid && studentForm.get('age')?.touched">
+              {{ getErrorMessage('age') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Promedio</mat-label>
+            <input matInput 
+                   formControlName="average" 
+                   placeholder="8.5"
+                   type="number"
+                   min="0"
+                   max="10"
+                   step="0.1">
+            <mat-icon matSuffix>grade</mat-icon>
+            <mat-error *ngIf="studentForm.get('average')?.invalid && studentForm.get('average')?.touched">
+              {{ getErrorMessage('average') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" 
+                  mat-button 
+                  (click)="onCancel()"
+                  [disabled]="isSubmitting">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+          </button>
+          
+          <button type="button" 
+                  mat-button 
+                  (click)="onReset()"
+                  [disabled]="isSubmitting">
+            <mat-icon>refresh</mat-icon>
+            Limpiar
+          </button>
+          
+          <button type="submit" 
+                  mat-raised-button 
+                  color="primary"
+                  [disabled]="studentForm.invalid || isSubmitting">
+            <mat-icon>save</mat-icon>
+            {{ isSubmitting ? 'Guardando...' : 'Guardar Estudiante' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div> 
