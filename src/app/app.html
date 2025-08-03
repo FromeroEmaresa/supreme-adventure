@@ -1,17 +1,1 @@
-<div class="container">
-  <app-toolbar class="toolbar"></app-toolbar>
-  <app-navbar class="navbar"></app-navbar>
-
-  <div class="content">
-    <app-students-table 
-      [students]="students"
-      (eliminar)="eliminarEstudiante($event)"
-      (editar)="editarEstudiante($event)">
-    </app-students-table>
-  </div>
-
-  <app-add-form 
-    [estudianteEditar]="estudianteParaEditar"
-    (studentAdded)="addStudent($event)">
-  </app-add-form>
-</div>
+<app-layout></app-layout>

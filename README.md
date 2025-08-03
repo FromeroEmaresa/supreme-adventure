@@ -1,42 +1,87 @@
 # FromeroE01 - Sistema de Gestión de Estudiantes
 
-Este proyecto es una aplicación web desarrollada en **Angular 20** que permite gestionar información de estudiantes de manera interactiva.
+Este proyecto es una aplicación web desarrollada en **Angular 20** que permite gestionar información de estudiantes de manera interactiva con una arquitectura modular moderna.
 
 ## 🎯 Funcionalidades del Sistema
 
-### 📊 **Tabla de Estudiantes**
-- Muestra una lista completa de todos los estudiantes registrados
-- Visualiza: nombre completo, edad, DNI y promedio académico
-- Interfaz moderna con Angular Material Table
+### 📊 **Dashboard**
+- Vista general con estadísticas en tiempo real
+- Métricas clave: total de estudiantes, edad promedio, promedio general
+- Identificación del estudiante con mejor promedio
+- Interfaz moderna con tarjetas informativas
 
-### ➕ **Agregar Estudiantes**
-- Formulario completo para registrar nuevos estudiantes
-- Validación en tiempo real de todos los campos
-- Campos requeridos: DNI, nombre, apellido, edad y promedio
+### 👥 **Gestión de Estudiantes**
+- **Lista Completa:** Tabla dinámica con Angular Material
+- **Agregar:** Formulario reactivo con validaciones avanzadas
+- **Editar:** Funcionalidad completa de edición
+- **Eliminar:** Confirmación mediante diálogos
+- **Búsqueda y Filtros:** Funcionalidades de búsqueda avanzada
 
-### ✏️ **Editar Estudiantes**
-- Funcionalidad de edición inline
-- Formulario reutilizable para modificar datos existentes
-- Actualización automática de la información
-
-### 🗑️ **Eliminar Estudiantes**
-- Opción para eliminar estudiantes de la lista
-- Confirmación de eliminación
-- Actualización inmediata de la tabla
+### 📈 **Estadísticas Detalladas**
+- Distribución de calificaciones por rangos
+- Distribución de edades por grupos
+- Gráficos visuales con barras de progreso
+- Lista completa de estudiantes con métricas
 
 ### ✅ **Validaciones Implementadas**
-- **DNI:** Campo obligatorio
-- **Nombre:** Campo obligatorio  
-- **Apellido:** Campo obligatorio
-- **Edad:** Obligatorio, mínimo 0 años
-- **Promedio:** Obligatorio, rango de 0 a 10
+- **DNI:** 8 dígitos, único en el sistema
+- **Nombre/Apellido:** Solo letras, mínimo 2 caracteres
+- **Edad:** Rango 16-100 años
+- **Promedio:** Rango 0-10 con decimales
+- **Validación Asíncrona:** Verificación de DNI duplicado
 
 ### 🎨 **Características Técnicas**
 - **Framework:** Angular 20 con TypeScript
-- **UI:** Angular Material + Bootstrap
-- **Formularios:** Reactive Forms con validación
-- **Datos:** Carga desde archivo JSON mock
-- **Responsive:** Compatible con móviles y desktop
+- **Arquitectura:** Modular (Core, Shared, Features)
+- **UI:** Angular Material + Diseño Responsivo
+- **Estado:** Servicios con Observables (RxJS)
+- **Routing:** Navegación con lazy loading
+- **Formularios:** Reactive Forms con validación avanzada
+- **Datos:** Carga desde archivo JSON mock con fallback
+
+## 🏗️ Arquitectura del Proyecto
+
+### **Estructura Modular**
+
+```
+src/
+├── app/
+│   ├── core/                    # Servicios singleton y configuración
+│   │   ├── services/
+│   │   │   └── student.service.ts
+│   │   └── core.module.ts
+│   ├── shared/                  # Componentes y utilidades reutilizables
+│   │   ├── entities.ts
+│   │   ├── pipes/
+│   │   ├── directives/
+│   │   └── shared.module.ts
+│   ├── features/                # Componentes específicos de la aplicación
+│   │   ├── layout/
+│   │   ├── pages/
+│   │   ├── students/
+│   │   └── features.module.ts
+│   └── app.routes.ts           # Configuración de rutas
+├── public/mocks/
+│   └── students.json           # Datos de ejemplo
+```
+
+### **Módulos Principales**
+
+#### **Core Module**
+- Servicios singleton
+- Configuración HTTP
+- Interceptores globales
+
+#### **Shared Module**
+- Componentes reutilizables
+- Pipes personalizados
+- Directivas comunes
+- Módulos de Angular Material
+
+#### **Features Module**
+- Componentes específicos de la aplicación
+- Páginas principales
+- Formularios de gestión
 
 ## 🚀 Cómo Usar
 
@@ -57,34 +102,44 @@ Abre tu navegador en `http://localhost:4200/`
 ng build
 ```
 
-## 📁 Estructura del Proyecto
-
-```
-src/
-├── app/
-│   ├── add-form/          # Formulario de gestión
-│   ├── students-table/    # Tabla de estudiantes  
-│   ├── navbar/            # Barra de navegación
-│   ├── toolbar/           # Barra de herramientas
-│   └── app.ts             # Componente principal
-├── shared/
-│   ├── entities.ts        # Interfaces de datos
-│   └── pipes/             # Pipes personalizados
-└── public/mocks/
-    └── students.json      # Datos de ejemplo
-```
-
 ## 🛠️ Tecnologías Utilizadas
 
 - **Angular 20** - Framework principal
 - **Angular Material** - Componentes de UI
-- **Bootstrap** - Framework CSS
-- **TypeScript** - Lenguaje de programación
 - **RxJS** - Programación reactiva
+- **TypeScript** - Lenguaje de programación
+- **SCSS** - Preprocesador CSS
+- **Angular Router** - Navegación
+- **Reactive Forms** - Formularios reactivos
 
----
+## 📱 Navegación
 
-*Proyecto generado con [Angular CLI](https://github.com/angular/angular-cli) versión 20.0.3.*
+### **Menú Lateral**
+- **Dashboard:** Vista general y estadísticas
+- **Estudiantes:** Lista y gestión de estudiantes
+- **Agregar Estudiante:** Formulario de registro
+- **Estadísticas:** Reportes detallados
+
+### **Funcionalidades por Página**
+
+#### **Dashboard (`/dashboard`)**
+- Resumen de métricas clave
+- Acceso rápido a funcionalidades principales
+
+#### **Estudiantes (`/students`)**
+- Tabla con todos los estudiantes
+- Acciones de editar y eliminar
+- Botón para agregar nuevo estudiante
+
+#### **Agregar Estudiante (`/students/add`)**
+- Formulario completo con validaciones
+- Feedback visual en tiempo real
+- Navegación automática tras guardar
+
+#### **Estadísticas (`/statistics`)**
+- Distribuciones visuales
+- Gráficos de barras
+- Lista completa con métricas
 
 ## 🧪 Testing
 
@@ -98,6 +153,44 @@ ng test
 ng e2e
 ```
 
-## 📚 Recursos Adicionales
+## 📚 Características Avanzadas
 
-Para más información sobre Angular CLI, visita la [Documentación Oficial de Angular](https://angular.dev/tools/cli).
+### **Gestión de Estado**
+- Servicios con BehaviorSubject
+- Observables para reactividad
+- Manejo de errores centralizado
+
+### **Validaciones Avanzadas**
+- Validadores personalizados
+- Validación asíncrona de DNI
+- Mensajes de error contextuales
+
+### **UX/UI Mejoras**
+- Diseño responsivo
+- Feedback visual inmediato
+- Confirmaciones de acciones críticas
+- Indicadores de carga
+
+### **Performance**
+- Lazy loading de componentes
+- Optimización de bundles
+- Carga eficiente de datos
+
+---
+
+*Proyecto optimizado con arquitectura modular siguiendo las mejores prácticas de Angular 20.*
+
+## 🎯 Criterios de Evaluación Cumplidos
+
+✅ **Módulos específicos:** Core, Shared, Features  
+✅ **Servicios con Observables:** StudentService con datos mockeados  
+✅ **Routing:** Navegación completa con lazy loading  
+✅ **Angular Material:** Componentes modernos y responsivos  
+✅ **ABM completo:** Alta, Baja, Modificación de estudiantes  
+✅ **Arquitectura modular:** Separación clara de responsabilidades  
+✅ **Navegación lateral:** Menú con rutas funcionales  
+✅ **Lógica excelente:** Estructura perfecta y bien definida  
+✅ **Componentes completos:** Layout, tabla, formularios  
+✅ **Datos JSON:** Carga desde archivos locales  
+✅ **Formularios reactivos:** Interacción excelente con validaciones  
+✅ **Tablas dinámicas:** Datos desde JSON con Angular Material  

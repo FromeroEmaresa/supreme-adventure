@@ -1,42 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Toolbar } from './toolbar/toolbar';
-import { Navbar } from './navbar/navbar';
-import { HttpClient } from '@angular/common/http';
-import { Student } from '../shared/entities';
-import { CommonModule } from '@angular/common';
-import { StudentsTable } from './students-table/students-table';
-import { AddForm } from "./add-form/add-form";
+import { Component } from '@angular/core';
+import { Layout } from './features/layout/layout';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Toolbar, Navbar, CommonModule, StudentsTable, AddForm],
+  imports: [Layout],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements OnInit {
-  students: Student[] = [];
-  constructor(private http: HttpClient) {}
-
-    ngOnInit(): void {
-      // Initialization logic can go here
-      this.http.get<Student[]>('mocks/students.json').subscribe(data => {
-        this.students = data;
-    });
-  }
-
-  addStudent(student: Student) {
-    this.students = [...this.students, student];
-  }
-
-  eliminarEstudiante(estudiante: Student) {
-  this.students = this.students.filter(s => s !== estudiante);
-  }
-
-  estudianteParaEditar?: Student;
-  editarEstudiante(estudiante: Student) {
-  this.estudianteParaEditar = { ...estudiante }; // Copia para no modificar directamente
-  }
-
-
+export class App {
+  title = 'FromeroE01 - Sistema de Gestión de Estudiantes';
 }
