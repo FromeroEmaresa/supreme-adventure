@@ -1,0 +1,69 @@
+.students-page {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h1 {
+      margin: 0;
+      color: #333;
+      font-weight: 300;
+    }
+  }
+
+  .students-table {
+    width: 100%;
+    
+    .mat-column-actions {
+      width: 120px;
+      text-align: center;
+    }
+  }
+
+  .average-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 12px;
+    
+    &.excellent {
+      background-color: #4caf50;
+      color: white;
+    }
+    
+    &.good {
+      background-color: #8bc34a;
+      color: white;
+    }
+    
+    &.average {
+      background-color: #ff9800;
+      color: white;
+    }
+    
+    &.poor {
+      background-color: #f44336;
+      color: white;
+    }
+  }
+
+  .no-data {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+
+    mat-icon {
+      font-size: 64px;
+      width: 64px;
+      height: 64px;
+      margin-bottom: 16px;
+      color: #ccc;
+    }
+
+    p {
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+  }
+} 
