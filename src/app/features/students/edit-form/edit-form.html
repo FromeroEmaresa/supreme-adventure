@@ -1,0 +1,78 @@
+<div class="edit-form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>edit</mat-icon>
+        Editar Estudiante
+      </mat-card-title>
+      <mat-card-subtitle>
+        Modifica los datos del estudiante {{ student?.name }} {{ student?.surname }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>DNI</mat-label>
+            <input matInput formControlName="dni" placeholder="12345678">
+            <mat-error *ngIf="studentForm.get('dni')?.invalid">
+              {{ getErrorMessage('dni') }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" placeholder="Juan">
+            <mat-error *ngIf="studentForm.get('name')?.invalid">
+              {{ getErrorMessage('name') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="surname" placeholder="Pérez">
+            <mat-error *ngIf="studentForm.get('surname')?.invalid">
+              {{ getErrorMessage('surname') }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Edad</mat-label>
+            <input matInput type="number" formControlName="age" placeholder="25">
+            <mat-error *ngIf="studentForm.get('age')?.invalid">
+              {{ getErrorMessage('age') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Promedio</mat-label>
+            <input matInput type="number" formControlName="average" placeholder="8.5" step="0.1">
+            <mat-error *ngIf="studentForm.get('average')?.invalid">
+              {{ getErrorMessage('average') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" mat-button (click)="onCancel()">
+            <mat-icon>cancel</mat-icon>
+            Cancelar
+          </button>
+          <button type="button" mat-button (click)="onReset()">
+            <mat-icon>refresh</mat-icon>
+            Restablecer
+          </button>
+          <button type="submit" mat-raised-button color="primary" [disabled]="studentForm.invalid">
+            <mat-icon>save</mat-icon>
+            Guardar Cambios
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div> 

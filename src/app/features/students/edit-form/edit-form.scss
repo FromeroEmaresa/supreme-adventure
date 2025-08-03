@@ -1,0 +1,116 @@
+.edit-form-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+
+  mat-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    mat-card-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin: -16px -16px 16px -16px;
+      padding: 16px;
+      border-radius: 8px 8px 0 0;
+
+      mat-card-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 500;
+
+        mat-icon {
+          font-size: 1.5rem;
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+
+      mat-card-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        margin: 8px 0 0 0;
+        font-size: 0.9rem;
+      }
+    }
+
+    mat-card-content {
+      padding: 16px 0;
+    }
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+
+    &.mat-form-field-appearance-outline {
+      .mat-form-field-outline {
+        color: #e0e0e0;
+      }
+
+      &.mat-focused .mat-form-field-outline-thick {
+        color: #667eea;
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+
+      button {
+        margin-bottom: 8px;
+      }
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 120px;
+
+      mat-icon {
+        font-size: 1.2rem;
+        width: 1.2rem;
+        height: 1.2rem;
+      }
+
+      &[type="submit"] {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        transition: all 0.3s ease;
+
+        &:hover:not(:disabled) {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        &:disabled {
+          background: #cccccc;
+          color: #666666;
+        }
+      }
+    }
+  }
+} 
