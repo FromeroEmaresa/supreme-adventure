@@ -1,0 +1,16 @@
+<div class="enrollments-container">
+  <div class="enrollments-header">
+    <h1 appBigtitle>Gestión de Inscripciones</h1>
+    <button mat-raised-button color="primary" (click)="onAddEnrollment()">
+      <mat-icon>add</mat-icon>
+      Nueva Inscripción
+    </button>
+  </div>
+  
+  <div class="enrollments-content">
+    <app-enrollments-table 
+      [enrollmentsWithDetails]="enrollmentsWithDetails$ | async" 
+      (deleteEnrollment)="onDeleteEnrollment($event)">
+    </app-enrollments-table>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+.table-container {
+  overflow-x: auto;
+}
+
+.enrollments-table {
+  width: 100%;
+}
+
+.student-info, .course-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  
+  .student-name, .course-name {
+    font-weight: 500;
+  }
+  
+  .student-dni, .course-description {
+    font-size: 12px;
+    color: #666;
+  }
+}
+
+.course-info {
+  max-width: 300px;
+  
+  .course-description {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: #666;
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: 18px;
+    margin: 0 0 8px 0;
+    font-weight: 500;
+  }
+
+  small {
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 768px) {
+  .enrollments-table {
+    font-size: 14px;
+  }
+  
+  .course-info {
+    max-width: 200px;
+  }
+}

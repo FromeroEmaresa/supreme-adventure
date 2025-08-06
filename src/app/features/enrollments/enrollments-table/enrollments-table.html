@@ -1,0 +1,58 @@
+<div class="table-container">
+  <table mat-table [dataSource]="enrollmentsWithDetails || []" class="enrollments-table">
+    <!-- Student Column -->
+    <ng-container matColumnDef="student">
+      <th mat-header-cell *matHeaderCellDef>Estudiante</th>
+      <td mat-cell *matCellDef="let enrollmentData">
+        <div class="student-info">
+          <span class="student-name">
+            {{ enrollmentData.student | fullname }}
+          </span>
+          <small class="student-dni">DNI: {{ enrollmentData.student?.dni || 'N/A' }}</small>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Course Column -->
+    <ng-container matColumnDef="course">
+      <th mat-header-cell *matHeaderCellDef>Curso</th>
+      <td mat-cell *matCellDef="let enrollmentData">
+        <div class="course-info">
+          <span class="course-name">{{ enrollmentData.course?.name || 'Curso no encontrado' }}</span>
+          <small class="course-description" *ngIf="enrollmentData.course?.description">
+            {{ enrollmentData.course.description.length > 40 ? 
+               (enrollmentData.course.description | slice:0:40) + '...' : 
+               enrollmentData.course.description }}
+          </small>
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Enrollment Date Column -->
+    <ng-container matColumnDef="enrollmentDate">
+      <th mat-header-cell *matHeaderCellDef>Fecha de Inscripción</th>
+      <td mat-cell *matCellDef="let enrollmentData">
+        {{ enrollmentData.enrollment.enrollmentDate | date:'dd/MM/yyyy' }}
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let enrollmentData">
+        <button mat-icon-button color="warn" (click)="onDelete(enrollmentData)" matTooltip="Eliminar inscripción">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div *ngIf="!enrollmentsWithDetails || enrollmentsWithDetails.length === 0" class="no-data">
+    <mat-icon>assignment</mat-icon>
+    <p>No hay inscripciones registradas</p>
+    <small>Agrega la primera inscripción haciendo clic en "Nueva Inscripción"</small>
+  </div>
+</div>
