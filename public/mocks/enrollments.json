@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "studentDni": "12345678",
+    "courseId": "1",
+    "enrollmentDate": "2024-01-15T10:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "studentDni": "87654321", 
+    "courseId": "2",
+    "enrollmentDate": "2024-01-20T14:30:00.000Z"
+  },
+  {
+    "id": "3",
+    "studentDni": "12345678",
+    "courseId": "3", 
+    "enrollmentDate": "2024-02-01T09:15:00.000Z"
+  }
+]

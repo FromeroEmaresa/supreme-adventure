@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    "name": "Matemáticas Avanzadas",
+    "description": "Curso de matemáticas para estudiantes de nivel avanzado que cubre cálculo diferencial e integral."
+  },
+  {
+    "id": "2", 
+    "name": "Programación en JavaScript",
+    "description": "Aprende los fundamentos de JavaScript y desarrollo web moderno con frameworks populares."
+  },
+  {
+    "id": "3",
+    "name": "Historia Mundial",
+    "description": "Un recorrido completo por los eventos más importantes de la historia mundial desde la antigüedad hasta la actualidad."
+  }
+]

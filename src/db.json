@@ -1,0 +1,73 @@
+{
+  "students": [
+    {
+      "name": "Juan",
+      "surname": "Pérez",
+      "age": 20,
+      "dni": "12345678",
+      "average": 8.5,
+      "id": "5769"
+    },
+    {
+      "name": "María",
+      "surname": "Gómez",
+      "age": 22,
+      "dni": "87654321",
+      "average": 9,
+      "id": "c98f"
+    },
+    {
+      "name": "Pedro",
+      "surname": "López",
+      "age": 21,
+      "dni": "11223344",
+      "average": 7.5,
+      "id": "1735"
+    },
+    {
+      "id": "b86c",
+      "dni": "19497595",
+      "name": "fabricior",
+      "surname": "romero",
+      "age": 28,
+      "average": 8.5
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "name": "Matemáticas Avanzadas",
+      "description": "Curso de matemáticas para estudiantes de nivel avanzado que cubre cálculo diferencial e integral."
+    },
+    {
+      "id": "2",
+      "name": "Programación en JavaScript",
+      "description": "Aprende los fundamentos de JavaScript y desarrollo web moderno con frameworks populares."
+    },
+    {
+      "id": "3",
+      "name": "Historia Mundial",
+      "description": "Un recorrido completo por los eventos más importantes de la historia mundial desde la antigüedad hasta la actualidad."
+    }
+  ],
+  "enrollments": [
+    {
+      "id": "1",
+      "studentDni": "12345678",
+      "courseId": "1",
+      "enrollmentDate": "2024-01-15T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "studentDni": "87654321",
+      "courseId": "2",
+      "enrollmentDate": "2024-01-20T14:30:00.000Z"
+    },
+    {
+      "id": "3",
+      "studentDni": "12345678",
+      "courseId": "3",
+      "enrollmentDate": "2024-02-01T09:15:00.000Z"
+    }
+  ]
+}
