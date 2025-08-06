@@ -1,0 +1,47 @@
+.courses-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.courses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  h1 {
+    margin: 0;
+    color: #1976d2;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.courses-content {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .courses-container {
+    padding: 10px;
+  }
+  
+  .courses-header {
+    flex-direction: column;
+    align-items: stretch;
+    
+    button {
+      align-self: flex-end;
+    }
+  }
+}

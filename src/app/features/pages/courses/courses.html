@@ -1,0 +1,17 @@
+<div class="courses-container">
+  <div class="courses-header">
+    <h1 appBigtitle>Gestión de Cursos</h1>
+    <button mat-raised-button color="primary" routerLink="/courses/add">
+      <mat-icon>add</mat-icon>
+      Agregar Curso
+    </button>
+  </div>
+  
+  <div class="courses-content">
+    <app-courses-table 
+      [courses]="courses$ | async" 
+      (editCourse)="onEditCourse($event)"
+      (deleteCourse)="onDeleteCourse($event)">
+    </app-courses-table>
+  </div>
+</div>

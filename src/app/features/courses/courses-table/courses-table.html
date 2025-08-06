@@ -1,0 +1,47 @@
+<div class="table-container">
+  <table mat-table [dataSource]="courses || []" class="courses-table">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let course">{{ course.id }}</td>
+    </ng-container>
+
+    <!-- Nombre Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let course">{{ course.name }}</td>
+    </ng-container>
+
+    <!-- Descripción Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Descripción</th>
+      <td mat-cell *matCellDef="let course" class="description-cell">
+        <span [matTooltip]="course.description">
+          {{ course.description.length > 50 ? (course.description | slice:0:50) + '...' : course.description }}
+        </span>
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let course">
+        <button mat-icon-button color="primary" (click)="onEdit(course)" matTooltip="Editar curso">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="onDelete(course)" matTooltip="Eliminar curso">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div *ngIf="!courses || courses.length === 0" class="no-data">
+    <mat-icon>school</mat-icon>
+    <p>No hay cursos registrados</p>
+    <small>Agrega el primer curso haciendo clic en "Agregar Curso"</small>
+  </div>
+</div>
