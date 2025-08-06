@@ -40,6 +40,16 @@ export class Layout {
       route: '/students/add'
     },
     {
+      label: 'Cursos',
+      icon: 'school',
+      route: '/courses'
+    },
+    {
+      label: 'Inscripciones',
+      icon: 'assignment',
+      route: '/enrollments'
+    },
+    {
       label: 'Estadísticas',
       icon: 'analytics',
       route: '/statistics'

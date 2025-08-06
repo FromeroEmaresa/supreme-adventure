@@ -17,7 +17,7 @@ export class StudentService {
   }
 
   private loadInitialData(): void {
-    this.http.get<Student[]>('mocks/students.json')
+    this.http.get<Student[]>('/api/students')
       .pipe(
         tap(data => {
           this.students = data;
@@ -74,11 +74,20 @@ export class StudentService {
       throw new Error('Ya existe un estudiante con ese DNI');
     }
 
-    const newStudent = { ...student };
-    this.students = [...this.students, newStudent];
-    this.studentsSubject.next(this.students);
-    
-    return of(newStudent);
+    return this.http.post<Student>('/api/students', student).pipe(
+      tap(newStudent => {
+        this.students = [...this.students, newStudent];
+        this.studentsSubject.next(this.students);
+      }),
+      catchError(error => {
+        console.error('Error agregando estudiante:', error);
+        // Fallback a comportamiento local
+        const newStudent = { ...student };
+        this.students = [...this.students, newStudent];
+        this.studentsSubject.next(this.students);
+        return of(newStudent);
+      })
+    );
   }
 
   // Actualizar estudiante existente
@@ -88,11 +97,21 @@ export class StudentService {
       throw new Error('Estudiante no encontrado');
     }
 
-    this.students[index] = { ...updatedStudent };
-    this.students = [...this.students];
-    this.studentsSubject.next(this.students);
-    
-    return of(updatedStudent);
+    return this.http.put<Student>(`/api/students/${index}`, updatedStudent).pipe(
+      tap(student => {
+        this.students[index] = { ...student };
+        this.students = [...this.students];
+        this.studentsSubject.next(this.students);
+      }),
+      catchError(error => {
+        console.error('Error actualizando estudiante:', error);
+        // Fallback a comportamiento local
+        this.students[index] = { ...updatedStudent };
+        this.students = [...this.students];
+        this.studentsSubject.next(this.students);
+        return of(updatedStudent);
+      })
+    );
   }
 
   // Eliminar estudiante
@@ -102,10 +121,20 @@ export class StudentService {
       throw new Error('Estudiante no encontrado');
     }
 
-    this.students = this.students.filter(s => s.dni !== dni);
-    this.studentsSubject.next(this.students);
-    
-    return of(true);
+    return this.http.delete<any>(`/api/students/${index}`).pipe(
+      tap(() => {
+        this.students = this.students.filter(s => s.dni !== dni);
+        this.studentsSubject.next(this.students);
+      }),
+      map(() => true),
+      catchError(error => {
+        console.error('Error eliminando estudiante:', error);
+        // Fallback a comportamiento local
+        this.students = this.students.filter(s => s.dni !== dni);
+        this.studentsSubject.next(this.students);
+        return of(true);
+      })
+    );
   }
 
   // Verificar si existe un DNI
