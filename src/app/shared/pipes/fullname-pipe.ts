@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Student } from '../entities';
 
 @Pipe({
   name: 'fullname',
@@ -6,8 +7,22 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FullnamePipe implements PipeTransform {
 
-  transform(name: string, surname: string): string {
-    return `${name} ${surname}`;
+  transform(student: Student | null): string;
+  transform(name: string, surname: string): string;
+  transform(studentOrName: Student | string | null, surname?: string): string {
+    if (!studentOrName) {
+      return '';
+    }
+    
+    if (typeof studentOrName === 'string' && surname) {
+      // Uso tradicional: nombre y apellido separados
+      return `${studentOrName} ${surname}`;
+    } else if (typeof studentOrName === 'object' && studentOrName.name && studentOrName.surname) {
+      // Uso con objeto Student
+      return `${studentOrName.name} ${studentOrName.surname}`;
+    }
+    
+    return '';
   }
 
 } 

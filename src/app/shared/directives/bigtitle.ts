@@ -1,10 +1,10 @@
-import { Directive, ElementRef, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Renderer2, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[appBigtitle]',
   standalone: true
 })
-export class BigtitleDirective {
+export class BigtitleDirective implements OnInit {
 
   constructor(
     private el: ElementRef,
