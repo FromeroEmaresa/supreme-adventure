@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Nueva Inscripción</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="enrollmentForm" class="enrollment-form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Estudiante</mat-label>
+      <mat-select formControlName="studentDni">
+        <mat-option 
+          *ngFor="let student of students$ | async" 
+          [value]="student.dni">
+          {{ student | fullname }} (DNI: {{ student.dni }})
+        </mat-option>
+      </mat-select>
+      <mat-error>{{ getErrorMessage('studentDni') }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Curso</mat-label>
+      <mat-select formControlName="courseId">
+        <mat-option 
+          *ngFor="let course of courses$ | async" 
+          [value]="course.id">
+          {{ course.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error>{{ getErrorMessage('courseId') }}</mat-error>
+    </mat-form-field>
+
+    <div class="info-message" *ngIf="(availableCombinations$ | async)?.length === 0">
+      <mat-icon>info</mat-icon>
+      <p>Todos los estudiantes ya están inscritos en todos los cursos disponibles.</p>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">
+    <mat-icon>cancel</mat-icon>
+    Cancelar
+  </button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="onSubmit()" 
+    [disabled]="enrollmentForm.invalid || (availableCombinations$ | async)?.length === 0">
+    <mat-icon>save</mat-icon>
+    Inscribir
+  </button>
+</mat-dialog-actions>

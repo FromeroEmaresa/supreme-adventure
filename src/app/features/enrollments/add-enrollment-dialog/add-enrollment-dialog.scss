@@ -1,0 +1,43 @@
+.enrollment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 400px;
+
+  .full-width {
+    width: 100%;
+  }
+}
+
+.info-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #e3f2fd;
+  border-radius: 4px;
+  color: #1976d2;
+
+  mat-icon {
+    color: #1976d2;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+mat-dialog-actions {
+  button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .enrollment-form {
+    min-width: 300px;
+  }
+}
