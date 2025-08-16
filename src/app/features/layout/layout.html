@@ -2,7 +2,7 @@
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       [attr.role]="'navigation'"
       [mode]="'side'"
-      [opened]="true">
+      [opened]="sidenavOpened">
     
     <mat-toolbar class="sidenav-toolbar">
       <span class="app-title">FromeroE01</span>
@@ -17,18 +17,58 @@
         <span matListItemTitle>{{ item.label }}</span>
       </a>
     </mat-nav-list>
+
+    <div class="sidenav-footer">
+      <mat-divider></mat-divider>
+      <div class="user-info">
+        <mat-icon>account_circle</mat-icon>
+        <div class="user-details">
+          <span class="user-name">{{ getUserDisplayName() }}</span>
+          <span class="user-role">{{ getUserRole() }}</span>
+        </div>
+      </div>
+      <button mat-list-item (click)="logout()" class="logout-button">
+        <mat-icon matListItemIcon>logout</mat-icon>
+        <span matListItemTitle>Cerrar Sesión</span>
+      </button>
+    </div>
   </mat-sidenav>
   
   <mat-sidenav-content class="sidenav-content">
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" class="main-toolbar">
       <button
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="drawer.toggle()">
+        (click)="toggleSidenav()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Sistema de Gestión de Estudiantes</span>
+      
+      <div class="toolbar-content">
+        <div class="app-info">
+          <span class="app-name">Sistema de Gestión Académica</span>
+          <span class="page-title" *ngIf="currentUser">
+            {{ getCurrentPageTitle() }}
+          </span>
+        </div>
+        
+        <div class="user-section">
+          <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
+            <mat-icon>account_circle</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <div mat-menu-item class="user-menu-header">
+              <mat-icon>person</mat-icon>
+              <span>{{ getUserDisplayName() }}</span>
+            </div>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Cerrar Sesión</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
     </mat-toolbar>
     
     <div class="content-container">
