@@ -31,23 +31,34 @@
       "surname": "romero",
       "age": 28,
       "average": 8.5
+    },
+    {
+      "id": "eb76",
+      "dni": "11111111",
+      "name": "javiera",
+      "surname": "peña",
+      "age": 28,
+      "average": 8.5
     }
   ],
   "courses": [
     {
       "id": "1",
       "name": "Matemáticas Avanzadas",
-      "description": "Curso de matemáticas para estudiantes de nivel avanzado que cubre cálculo diferencial e integral."
+      "description": "Curso de matemáticas para estudiantes de nivel avanzado que cubre cálculo diferencial e integral.",
+      "credits": 4
     },
     {
       "id": "2",
       "name": "Programación en JavaScript",
-      "description": "Aprende los fundamentos de JavaScript y desarrollo web moderno con frameworks populares."
+      "description": "Aprende los fundamentos de JavaScript y desarrollo web moderno con frameworks populares.",
+      "credits": 3
     },
     {
       "id": "3",
       "name": "Historia Mundial",
-      "description": "Un recorrido completo por los eventos más importantes de la historia mundial desde la antigüedad hasta la actualidad."
+      "description": "Un recorrido completo por los eventos más importantes de la historia mundial desde la antigüedad hasta la actualidad.",
+      "credits": 2
     }
   ],
   "enrollments": [
@@ -68,6 +79,32 @@
       "studentDni": "12345678",
       "courseId": "3",
       "enrollmentDate": "2024-02-01T09:15:00.000Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "admin123",
+      "role": "admin",
+      "name": "Administrador",
+      "email": "admin@sistema.com"
+    },
+    {
+      "id": "2",
+      "username": "user",
+      "password": "user123",
+      "role": "user",
+      "name": "Usuario Regular",
+      "email": "user@sistema.com"
+    },
+    {
+      "id": "3",
+      "username": "profesor",
+      "password": "prof123",
+      "role": "user",
+      "name": "Profesor García",
+      "email": "profesor@sistema.com"
     }
   ]
 }

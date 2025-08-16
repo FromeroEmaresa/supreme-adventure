@@ -10,6 +10,7 @@ export interface Course {
   id: string;
   name: string;
   description: string;
+  credits: number;
 }
 
 export interface Enrollment {
@@ -26,4 +27,30 @@ export interface DialogData {
   student?: Student;
   course?: Course;
   enrollment?: Enrollment;
+}
+
+// Nuevas interfaces para autenticación
+export interface User {
+  id: string;
+  username: string;
+  password: string;
+  role: 'admin' | 'user';
+  name: string;
+  email?: string;
+}
+
+export interface LoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  user: User;
+  token: string;
+}
+
+export interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  token: string | null;
 } 
