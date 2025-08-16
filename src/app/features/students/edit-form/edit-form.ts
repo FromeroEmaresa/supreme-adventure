@@ -43,15 +43,23 @@ export class EditForm implements OnInit {
     const dni = this.route.snapshot.paramMap.get('dni');
     if (dni) {
       this.originalDni = dni;
-      this.student = this.studentService.getStudentByDni(dni);
-      
-      if (this.student) {
-        this.initForm();
-        this.studentForm.patchValue(this.student);
-      } else {
-        this.snackBar.open('Estudiante no encontrado', 'Cerrar', { duration: 3000 });
-        this.router.navigate(['/students']);
-      }
+      this.studentService.getStudentByDni(dni).subscribe({
+        next: (student) => {
+          this.student = student;
+          if (this.student) {
+            this.initForm();
+            this.studentForm.patchValue(this.student);
+          } else {
+            this.snackBar.open('Estudiante no encontrado', 'Cerrar', { duration: 3000 });
+            this.router.navigate(['/students']);
+          }
+        },
+        error: (error) => {
+          console.error('Error cargando estudiante:', error);
+          this.snackBar.open('Error cargando el estudiante', 'Cerrar', { duration: 3000 });
+          this.router.navigate(['/students']);
+        }
+      });
     }
   }
 

@@ -45,7 +45,8 @@ export class EditCourseForm implements OnInit {
   ) {
     this.courseForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
-      description: ['', [Validators.required, Validators.minLength(10)]]
+      description: ['', [Validators.required, Validators.minLength(10)]],
+      credits: [0, [Validators.required, Validators.min(1), Validators.max(10)]]
     });
   }
 
@@ -55,21 +56,34 @@ export class EditCourseForm implements OnInit {
   }
 
   private loadCourse(): void {
-    this.course = this.courseService.getCourseById(this.courseId);
-    
-    if (this.course) {
-      this.courseForm.patchValue({
-        name: this.course.name,
-        description: this.course.description
-      });
-    } else {
-      this.snackBar.open('Curso no encontrado', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'right',
-        verticalPosition: 'top'
-      });
-      this.router.navigate(['/courses']);
-    }
+    this.courseService.getCourseById(this.courseId).subscribe({
+      next: (course) => {
+        this.course = course;
+        if (this.course) {
+          this.courseForm.patchValue({
+            name: this.course.name,
+            description: this.course.description,
+            credits: this.course.credits
+          });
+        } else {
+          this.snackBar.open('Curso no encontrado', 'Cerrar', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top'
+          });
+          this.router.navigate(['/courses']);
+        }
+      },
+      error: (error) => {
+        console.error('Error cargando curso:', error);
+        this.snackBar.open('Error cargando el curso', 'Cerrar', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top'
+        });
+        this.router.navigate(['/courses']);
+      }
+    });
   }
 
   onSubmit(): void {
