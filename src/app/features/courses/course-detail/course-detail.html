@@ -1,0 +1,117 @@
+<div class="course-detail-container">
+  <div class="header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Detalle del Curso</h1>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando datos del curso...</p>
+  </div>
+
+  <div *ngIf="!loading && course" class="content">
+    <!-- Información del Curso -->
+    <mat-card class="course-info-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>school</mat-icon>
+          Información del Curso
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="course-details">
+          <div class="detail-row">
+            <span class="label">Nombre del curso:</span>
+            <span class="value">{{ course.name }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Descripción:</span>
+            <span class="value">{{ course.description }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Créditos:</span>
+            <span class="value">
+              <mat-chip color="primary" selected>{{ course.credits }}</mat-chip>
+            </span>
+          </div>
+          <div class="detail-row">
+            <span class="label">ID del curso:</span>
+            <span class="value">{{ course.id }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Estudiantes Inscritos -->
+    <mat-card class="students-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>people</mat-icon>
+          Estudiantes Inscritos ({{ enrolledStudents.length }})
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="enrolledStudents.length === 0" class="no-students">
+          <mat-icon>info</mat-icon>
+          <p>No hay estudiantes inscritos en este curso.</p>
+        </div>
+
+        <table *ngIf="enrolledStudents.length > 0" mat-table [dataSource]="enrolledStudents" class="students-table">
+          <!-- Nombre Completo -->
+          <ng-container matColumnDef="fullname">
+            <th mat-header-cell *matHeaderCellDef>Nombre Completo</th>
+            <td mat-cell *matCellDef="let student">{{ student.name }} {{ student.surname }}</td>
+          </ng-container>
+
+          <!-- Edad -->
+          <ng-container matColumnDef="age">
+            <th mat-header-cell *matHeaderCellDef>Edad</th>
+            <td mat-cell *matCellDef="let student">{{ student.age }} años</td>
+          </ng-container>
+
+          <!-- DNI -->
+          <ng-container matColumnDef="dni">
+            <th mat-header-cell *matHeaderCellDef>DNI</th>
+            <td mat-cell *matCellDef="let student">{{ student.dni }}</td>
+          </ng-container>
+
+          <!-- Promedio -->
+          <ng-container matColumnDef="average">
+            <th mat-header-cell *matHeaderCellDef>Promedio</th>
+            <td mat-cell *matCellDef="let student">
+              <span class="average" [ngClass]="getAverageClass(student.average)">
+                {{ student.average }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Acciones -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let student">
+              <button mat-icon-button 
+                      color="warn" 
+                      (click)="unenrollStudent(student)"
+                      matTooltip="Des-inscribir del curso">
+                <mat-icon>remove_circle</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!loading && !course" class="error-container">
+    <mat-icon>error</mat-icon>
+    <p>No se encontró el curso.</p>
+    <button mat-raised-button color="primary" (click)="goBack()">
+      Volver a la lista
+    </button>
+  </div>
+</div> 

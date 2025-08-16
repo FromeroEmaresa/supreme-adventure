@@ -91,4 +91,8 @@ export class CoursesPage implements OnInit, OnDestroy {
         }
       });
   }
+
+  onViewDetail(course: Course): void {
+    this.router.navigate(['/courses/detail', course.id]);
+  }
 }

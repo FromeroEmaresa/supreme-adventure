@@ -30,17 +30,20 @@ export class CourseService {
             {
               id: "1",
               name: "Matemáticas Avanzadas",
-              description: "Curso de matemáticas para estudiantes de nivel avanzado que cubre cálculo diferencial e integral."
+              description: "Curso de matemáticas para estudiantes de nivel avanzado que cubre cálculo diferencial e integral.",
+              credits: 4
             },
             {
               id: "2", 
               name: "Programación en JavaScript",
-              description: "Aprende los fundamentos de JavaScript y desarrollo web moderno con frameworks populares."
+              description: "Aprende los fundamentos de JavaScript y desarrollo web moderno con frameworks populares.",
+              credits: 3
             },
             {
               id: "3",
               name: "Historia Mundial",
-              description: "Un recorrido completo por los eventos más importantes de la historia mundial desde la antigüedad hasta la actualidad."
+              description: "Un recorrido completo por los eventos más importantes de la historia mundial desde la antigüedad hasta la actualidad.",
+              credits: 2
             }
           ];
           this.coursesSubject.next(this.courses);
@@ -56,9 +59,10 @@ export class CourseService {
   }
 
   // Obtener curso por ID
-  getCourseById(id: string): Course | null {
-    const courses = this.coursesSubject.value;
-    return courses.find(course => course.id === id) || null;
+  getCourseById(id: string): Observable<Course | null> {
+    return this.courses$.pipe(
+      map(courses => courses.find(course => course.id === id) || null)
+    );
   }
 
   // Agregar nuevo curso

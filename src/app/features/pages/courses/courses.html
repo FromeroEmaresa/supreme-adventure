@@ -11,7 +11,8 @@
     <app-courses-table 
       [courses]="courses$ | async" 
       (editCourse)="onEditCourse($event)"
-      (deleteCourse)="onDeleteCourse($event)">
+      (deleteCourse)="onDeleteCourse($event)"
+      (viewDetail)="onViewDetail($event)">
     </app-courses-table>
   </div>
 </div>

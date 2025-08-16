@@ -1,0 +1,232 @@
+.course-detail-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+
+    h1 {
+      margin: 0;
+      color: #333;
+      font-size: 28px;
+      font-weight: 500;
+    }
+
+    .back-button {
+      color: #666;
+      
+      &:hover {
+        color: #333;
+      }
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 16px;
+
+    p {
+      color: #666;
+      font-size: 16px;
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .course-info-card {
+    .mat-mdc-card-header {
+      background-color: #f5f5f5;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .mat-mdc-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .course-details {
+      padding: 16px 0;
+
+      .detail-row {
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .label {
+          font-weight: 500;
+          color: #666;
+          min-width: 140px;
+          margin-right: 16px;
+        }
+
+        .value {
+          color: #333;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  .students-card {
+    .mat-mdc-card-header {
+      background-color: #f5f5f5;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .mat-mdc-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .no-students {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      gap: 16px;
+      color: #666;
+
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        color: #ccc;
+      }
+
+      p {
+        font-size: 16px;
+        margin: 0;
+      }
+    }
+
+    .students-table {
+      width: 100%;
+      margin-top: 16px;
+
+      .mat-mdc-header-cell {
+        font-weight: 600;
+        color: #333;
+        background-color: #fafafa;
+      }
+
+      .mat-mdc-cell {
+        padding: 12px 8px;
+      }
+
+      .mat-mdc-row:hover {
+        background-color: #f5f5f5;
+      }
+
+      .average {
+        font-weight: 600;
+        font-size: 14px;
+        padding: 4px 8px;
+        border-radius: 12px;
+
+        &.excellent {
+          background-color: #e8f5e8;
+          color: #2e7d32;
+        }
+
+        &.good {
+          background-color: #fff3e0;
+          color: #f57c00;
+        }
+
+        &.average {
+          background-color: #fff8e1;
+          color: #f9a825;
+        }
+
+        &.poor {
+          background-color: #ffebee;
+          color: #c62828;
+        }
+      }
+    }
+  }
+
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 16px;
+    text-align: center;
+
+    mat-icon {
+      font-size: 64px;
+      width: 64px;
+      height: 64px;
+      color: #f44336;
+    }
+
+    p {
+      color: #666;
+      font-size: 18px;
+      margin: 0;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .course-detail-container {
+    padding: 16px;
+
+    .header {
+      h1 {
+        font-size: 24px;
+      }
+    }
+
+    .course-info-card {
+      .course-details {
+        .detail-row {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 4px;
+
+          .label {
+            min-width: auto;
+            margin-right: 0;
+          }
+        }
+      }
+    }
+
+    .students-card {
+      .students-table {
+        font-size: 14px;
+
+        .mat-mdc-cell {
+          padding: 8px 4px;
+        }
+      }
+    }
+  }
+} 
