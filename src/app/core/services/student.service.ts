@@ -62,9 +62,10 @@ export class StudentService {
   }
 
   // Obtener estudiante por DNI
-  getStudentByDni(dni: string): Student | null {
-    const students = this.studentsSubject.value;
-    return students.find(student => student.dni === dni) || null;
+  getStudentByDni(dni: string): Observable<Student | null> {
+    return this.students$.pipe(
+      map(students => students.find(student => student.dni === dni) || null)
+    );
   }
 
   // Agregar nuevo estudiante

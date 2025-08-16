@@ -4,8 +4,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 import { Student } from '../../../shared/entities';
 import { FullnamePipe } from '../../../shared/pipes/fullname-pipe';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-students-table',
@@ -16,6 +18,7 @@ import { FullnamePipe } from '../../../shared/pipes/fullname-pipe';
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
+    MatMenuModule,
     FullnamePipe
   ],
   templateUrl: './students-table.html',
@@ -23,19 +26,28 @@ import { FullnamePipe } from '../../../shared/pipes/fullname-pipe';
 })
 export class StudentsTable {
   @Input() students: Student[] = [];
+  isAdmin = false;
 
   displayedColumns: string[] = ['fullname', 'age', 'dni', 'average', 'actions'];  
 
   @Output() eliminar: EventEmitter<Student> = new EventEmitter<Student>();
+  @Output() editar = new EventEmitter<Student>();
+  @Output() verDetalle = new EventEmitter<Student>();
+
+  constructor(private authService: AuthService) {
+    this.isAdmin = this.authService.isAdmin();
+  }
 
   eliminarEstudiante(estudiante: Student) {
     this.eliminar.emit(estudiante);
   }
 
-  @Output() editar = new EventEmitter<Student>();
-
   editarEstudiante(estudiante: Student) {
     this.editar.emit(estudiante);
+  }
+
+  verDetalleEstudiante(estudiante: Student) {
+    this.verDetalle.emit(estudiante);
   }
 
   getAverageClass(average: number): string {
@@ -43,5 +55,13 @@ export class StudentsTable {
     if (average >= 7) return 'good';
     if (average >= 6) return 'average';
     return 'poor';
+  }
+
+  canEdit(): boolean {
+    return this.isAdmin;
+  }
+
+  canDelete(): boolean {
+    return this.isAdmin;
   }
 } 

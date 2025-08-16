@@ -11,7 +11,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { StudentService } from '../../../core/services/student.service';
 import { Student, DialogData } from '../../../shared/entities';
 import { StudentDialog } from '../../students/student-dialog/student-dialog';
-import { FullnamePipe } from '../../../shared/pipes/fullname-pipe';
+import { StudentsTable } from '../../students/students-table/students-table';
+
 import { Observable } from 'rxjs';
 
 @Component({
@@ -27,7 +28,7 @@ import { Observable } from 'rxjs';
     MatDialogModule,
     MatSnackBarModule,
     MatTooltipModule,
-    FullnamePipe
+    StudentsTable
   ],
   templateUrl: './students.html',
   styleUrls: ['./students.scss']
@@ -85,6 +86,10 @@ export class StudentsPage implements OnInit {
   editarEstudiante(estudiante: Student): void {
     // Navegar a la página de edición usando el DNI del estudiante
     this.router.navigate(['/students/edit', estudiante.dni]);
+  }
+
+  verDetalleEstudiante(estudiante: Student): void {
+    this.router.navigate(['/students/detail', estudiante.dni]);
   }
 
   getAverageClass(average: number): string {

@@ -10,64 +10,23 @@
   <mat-card>
     <mat-card-content>
       <div *ngIf="(students$ | async) as students; else noData">
-        <table mat-table [dataSource]="students" class="students-table">
-        <!-- Full Name Column -->
-        <ng-container matColumnDef="fullname">
-          <th mat-header-cell *matHeaderCellDef> Nombre Completo </th>
-          <td mat-cell *matCellDef="let element"> 
-            {{ element.name | fullname:element.surname }} 
-          </td>
-        </ng-container>
-
-        <!-- Age Column -->
-        <ng-container matColumnDef="age">
-          <th mat-header-cell *matHeaderCellDef> Edad </th>
-          <td mat-cell *matCellDef="let element"> {{ element.age }} años </td>
-        </ng-container>
-
-        <!-- DNI Column -->
-        <ng-container matColumnDef="dni">
-          <th mat-header-cell *matHeaderCellDef> DNI </th>
-          <td mat-cell *matCellDef="let element"> {{ element.dni }} </td>
-        </ng-container>
-
-        <!-- Average Column -->
-        <ng-container matColumnDef="average">
-          <th mat-header-cell *matHeaderCellDef> Promedio </th>
-          <td mat-cell *matCellDef="let element"> 
-            <span class="average-badge" [class]="getAverageClass(element.average)">
-              {{ element.average }}
-            </span>
-          </td>
-        </ng-container>
-
-        <!-- Actions Column -->
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> Acciones </th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary" (click)="editarEstudiante(element)" matTooltip="Editar">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="eliminarEstudiante(element)" matTooltip="Eliminar">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
+        <app-students-table 
+          [students]="students"
+          (eliminar)="eliminarEstudiante($event)"
+          (editar)="editarEstudiante($event)"
+          (verDetalle)="verDetalleEstudiante($event)"
+        ></app-students-table>
       </div>
 
-             <ng-template #noData>
-         <div class="no-data">
-           <mat-icon>people_outline</mat-icon>
-           <p>No hay estudiantes registrados</p>
-           <button mat-raised-button color="primary" routerLink="/students/add">
-             Agregar Primer Estudiante
-           </button>
-         </div>
-       </ng-template>
-     </mat-card-content>
-   </mat-card>
- </div> 
+      <ng-template #noData>
+        <div class="no-data">
+          <mat-icon>people_outline</mat-icon>
+          <p>No hay estudiantes registrados</p>
+          <button mat-raised-button color="primary" routerLink="/students/add">
+            Agregar Primer Estudiante
+          </button>
+        </div>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div> 
