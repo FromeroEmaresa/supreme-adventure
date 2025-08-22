@@ -23,7 +23,7 @@ export class EnrollmentService {
   }
 
   private loadInitialData(): void {
-    this.http.get<any[]>('/api/enrollments')
+    this.http.get<Enrollment[]>('/api/enrollments')
       .pipe(
         tap(data => {
           // Convertir fechas de string a Date
@@ -152,7 +152,7 @@ export class EnrollmentService {
       enrollmentDate: new Date().toISOString()
     };
 
-    return this.http.post<any>('/api/enrollments', newEnrollmentData).pipe(
+    return this.http.post<Enrollment>('/api/enrollments', newEnrollmentData).pipe(
       map(response => ({
         ...response,
         enrollmentDate: new Date(response.enrollmentDate)
@@ -185,7 +185,7 @@ export class EnrollmentService {
       throw new Error('Inscripción no encontrada');
     }
 
-    return this.http.delete<any>(`/api/enrollments/${id}`).pipe(
+    return this.http.delete<void>(`/api/enrollments/${id}`).pipe(
       tap(() => {
         this.enrollments = this.enrollments.filter(e => e.id !== id);
         this.enrollmentsSubject.next(this.enrollments);

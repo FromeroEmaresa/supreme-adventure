@@ -27,7 +27,7 @@ export class StatisticsPage implements OnInit {
     total: number;
     averageAge: number;
     averageGrade: number;
-    topStudent: any;
+    topStudent: Student | null;
   }>;
 
   students$: Observable<Student[]>;

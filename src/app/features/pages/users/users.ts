@@ -14,7 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subject, takeUntil } from 'rxjs';
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { User } from '../../../shared/entities';
+import { User, ConfirmDialogData } from '../../../shared/entities';
 
 @Component({
   selector: 'app-users-page',
@@ -173,5 +173,5 @@ export class UsersPage implements OnInit, OnDestroy {
   imports: [CommonModule, MatDialogModule, MatButtonModule]
 })
 export class ConfirmDeleteDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData) {}
 } 

@@ -122,7 +122,7 @@ export class StudentService {
       throw new Error('Estudiante no encontrado');
     }
 
-    return this.http.delete<any>(`/api/students/${index}`).pipe(
+    return this.http.delete<void>(`/api/students/${index}`).pipe(
       tap(() => {
         this.students = this.students.filter(s => s.dni !== dni);
         this.studentsSubject.next(this.students);

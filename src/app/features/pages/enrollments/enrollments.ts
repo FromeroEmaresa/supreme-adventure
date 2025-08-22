@@ -13,6 +13,7 @@ import { EnrollmentsTable } from '../../enrollments/enrollments-table/enrollment
 import { AddEnrollmentDialog } from '../../enrollments/add-enrollment-dialog/add-enrollment-dialog';
 import { StudentDialog } from '../../students/student-dialog/student-dialog';
 import { BigtitleDirective } from '../../../shared/directives/bigtitle';
+import { EnrollmentWithDetails } from '../../../shared/entities';
 
 @Component({
   selector: 'app-enrollments',
@@ -31,11 +32,7 @@ import { BigtitleDirective } from '../../../shared/directives/bigtitle';
   styleUrl: './enrollments.scss'
 })
 export class EnrollmentsPage implements OnInit, OnDestroy {
-  enrollmentsWithDetails$!: Observable<Array<{
-    enrollment: any;
-    student: any;
-    course: any;
-  }>>;
+  enrollmentsWithDetails$!: Observable<EnrollmentWithDetails[]>;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -84,7 +81,7 @@ export class EnrollmentsPage implements OnInit, OnDestroy {
       });
   }
 
-  onDeleteEnrollment(enrollmentData: any): void {
+  onDeleteEnrollment(enrollmentData: EnrollmentWithDetails): void {
     const enrollment = enrollmentData.enrollment;
     const student = enrollmentData.student;
     const course = enrollmentData.course;

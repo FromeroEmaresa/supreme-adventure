@@ -115,7 +115,7 @@ export class CourseService {
       throw new Error('Curso no encontrado');
     }
 
-    return this.http.delete<any>(`/api/courses/${id}`).pipe(
+    return this.http.delete<void>(`/api/courses/${id}`).pipe(
       tap(() => {
         this.courses = this.courses.filter(c => c.id !== id);
         this.coursesSubject.next(this.courses);

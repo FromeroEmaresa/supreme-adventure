@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { StudentService } from '../../../core/services/student.service';
+import { Student } from '../../../shared/entities';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,7 +22,7 @@ export class Dashboard implements OnInit {
     total: number;
     averageAge: number;
     averageGrade: number;
-    topStudent: any;
+    topStudent: Student | null;
   }>;
 
   constructor(private studentService: StudentService) {

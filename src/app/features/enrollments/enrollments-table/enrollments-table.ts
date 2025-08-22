@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { Enrollment, Student, Course } from '../../../shared/entities';
+import { Enrollment, Student, Course, EnrollmentWithDetails } from '../../../shared/entities';
 import { FullnamePipe } from '../../../shared/pipes/fullname-pipe';
 
 @Component({
@@ -23,20 +23,12 @@ import { FullnamePipe } from '../../../shared/pipes/fullname-pipe';
   styleUrl: './enrollments-table.scss'
 })
 export class EnrollmentsTable {
-  @Input() enrollmentsWithDetails: Array<{
-    enrollment: Enrollment;
-    student: Student | null;
-    course: Course | null;
-  }> | null = [];
-  @Output() deleteEnrollment = new EventEmitter<{
-    enrollment: Enrollment;
-    student: Student | null;
-    course: Course | null;
-  }>();
+  @Input() enrollmentsWithDetails: EnrollmentWithDetails[] | null = [];
+  @Output() deleteEnrollment = new EventEmitter<EnrollmentWithDetails>();
 
   displayedColumns: string[] = ['student', 'course', 'enrollmentDate', 'actions'];
 
-  onDelete(enrollmentData: any): void {
+  onDelete(enrollmentData: EnrollmentWithDetails): void {
     this.deleteEnrollment.emit(enrollmentData);
   }
 }

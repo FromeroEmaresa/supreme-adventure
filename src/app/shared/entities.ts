@@ -53,4 +53,16 @@ export interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   token: string | null;
+}
+
+export interface EnrollmentWithDetails {
+  enrollment: Enrollment;
+  student: Student | null;
+  course: Course | null;
+}
+
+export interface ConfirmDialogData {
+  title: string;
+  message: string;
+  type: 'info' | 'warning' | 'error' | 'success' | 'delete';
 } 
