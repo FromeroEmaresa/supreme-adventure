@@ -39,6 +39,14 @@
       "surname": "peña",
       "age": 28,
       "average": 8.5
+    },
+    {
+      "id": "de35",
+      "dni": "11111112",
+      "name": "brayan",
+      "surname": "camus",
+      "age": 28,
+      "average": 7.5
     }
   ],
   "courses": [
