@@ -1,6 +1,6 @@
-# FromeroE01 - Sistema de Gestión Académica con Autenticación
+# FromeroE01 - Sistema de Gestión Académica con Autenticación y NgRx
 
-Este proyecto es una aplicación web desarrollada en **Angular 20** que permite gestionar información de **estudiantes**, **cursos** e **inscripciones** de manera interactiva con una arquitectura modular moderna, **persistencia real** y **sistema completo de autenticación y autorización**.
+Este proyecto es una aplicación web desarrollada en **Angular 20** que permite gestionar información de **estudiantes**, **cursos** e **inscripciones** de manera interactiva con una arquitectura modular moderna, **persistencia real**, **sistema completo de autenticación y autorización**, **gestión de estado con NgRx** y **Mock API para simulación de servicios externos**.
 
 ## 🎯 Funcionalidades del Sistema
 
@@ -11,6 +11,22 @@ Este proyecto es una aplicación web desarrollada en **Angular 20** que permite 
 - **Guards de protección** para rutas sensibles
 - **Sesión persistente** con localStorage
 - **Logout seguro** con redirección automática
+
+### 🏗️ **Gestión de Estado con NgRx** ⭐ **NUEVO**
+- **Store centralizado** para gestión de estado global
+- **Feature stores** para cada módulo (Students, Courses, Enrollments, Users)
+- **Effects** para manejo de side effects y llamadas API
+- **Actions y Reducers** para cambios de estado predecibles
+- **Selectors** para consultas eficientes del estado
+- **Store DevTools** para debugging y desarrollo
+
+### 🌐 **Mock API** ⭐ **NUEVO**
+- **Simulación de API externa** con delays de red realistas
+- **Interceptor HTTP** para simular condiciones de red
+- **Errores aleatorios** para testing de robustez
+- **Timeouts simulados** para manejo de errores
+- **Headers de autenticación** Bearer Token
+- **URLs externas simuladas** (`https://api.ejemplo.com/v1`)
 
 ### 📊 **Dashboard**
 - Vista general con estadísticas en tiempo real
@@ -74,12 +90,13 @@ Este proyecto es una aplicación web desarrollada en **Angular 20** que permite 
 - **Framework:** Angular 20 con TypeScript
 - **Arquitectura:** Modular (Core, Shared, Features)
 - **UI:** Angular Material + Diseño Responsivo
-- **Estado:** Servicios con Observables (RxJS)
+- **Estado:** NgRx Store + Effects + Selectors ⭐ **NUEVO**
 - **Routing:** Navegación con lazy loading
 - **Formularios:** Reactive Forms con validación avanzada
 - **Autenticación:** JWT simulada con localStorage
 - **Autorización:** Guards de protección por roles
 - **Persistencia:** JSON Server con APIs REST
+- **Mock API:** Simulación de servicios externos ⭐ **NUEVO**
 - **Base de Datos:** Archivo JSON con sincronización automática
 
 ## 🏗️ Arquitectura del Proyecto
@@ -94,7 +111,11 @@ src/
 │   │   │   ├── student.service.ts
 │   │   │   ├── course.service.ts      ⭐ NUEVO
 │   │   │   ├── enrollment.service.ts  ⭐ NUEVO
-│   │   ├── auth.service.ts            ⭐ NUEVO
+│   │   │   ├── user.service.ts        ⭐ NUEVO
+│   │   │   ├── auth.service.ts        ⭐ NUEVO
+│   │   │   └── mock-api.service.ts    ⭐ NUEVO
+│   │   ├── interceptors/
+│   │   │   └── mock-api.interceptor.ts ⭐ NUEVO
 │   │   ├── auth.guard.ts              ⭐ NUEVO
 │   │   ├── admin.guard.ts             ⭐ NUEVO
 │   │   └── core.module.ts
@@ -103,6 +124,39 @@ src/
 │   │   ├── pipes/
 │   │   ├── directives/
 │   │   └── shared.module.ts
+│   ├── store/                   # NgRx Store ⭐ NUEVO
+│   │   ├── app/                 # App Store (auth, page title)
+│   │   │   ├── app.actions.ts
+│   │   │   ├── app.effects.ts
+│   │   │   ├── app.reducer.ts
+│   │   │   ├── app.selectors.ts
+│   │   │   └── app.state.ts
+│   │   ├── students/            # Students Feature Store
+│   │   │   ├── students.actions.ts
+│   │   │   ├── students.effects.ts
+│   │   │   ├── students.reducer.ts
+│   │   │   ├── students.selectors.ts
+│   │   │   └── students.state.ts
+│   │   ├── courses/             # Courses Feature Store
+│   │   │   ├── courses.actions.ts
+│   │   │   ├── courses.effects.ts
+│   │   │   ├── courses.reducer.ts
+│   │   │   ├── courses.selectors.ts
+│   │   │   └── courses.state.ts
+│   │   ├── enrollments/         # Enrollments Feature Store
+│   │   │   ├── enrollments.actions.ts
+│   │   │   ├── enrollments.effects.ts
+│   │   │   ├── enrollments.reducer.ts
+│   │   │   ├── enrollments.selectors.ts
+│   │   │   └── enrollments.state.ts
+│   │   ├── users/               # Users Feature Store
+│   │   │   ├── users.actions.ts
+│   │   │   ├── users.effects.ts
+│   │   │   ├── users.reducer.ts
+│   │   │   ├── users.selectors.ts
+│   │   │   └── users.state.ts
+│   │   ├── root-reducer.ts      # Root reducer
+│   │   └── index.ts             # Store exports
 │   ├── features/                # Componentes específicos de la aplicación
 │   │   ├── layout/
 │   │   ├── pages/
@@ -118,11 +172,13 @@ src/
 │   │   ├── users/               ⭐ NUEVO
 │   │   ├── auth/                ⭐ NUEVO
 │   │   └── features.module.ts
-│   └── app.routes.ts           # Configuración de rutas
+│   ├── app.routes.ts           # Configuración de rutas
+│   └── app.config.ts           # Configuración de la app ⭐ NUEVO
 ├── src/
 │   └── db.json                 # Base de datos JSON Server
 ├── public/mocks/               # Datos de respaldo
-└── proxy.conf.json             # Configuración de proxy
+├── proxy.conf.json             # Configuración de proxy
+└── MOCK_API_README.md          # Documentación del Mock API ⭐ NUEVO
 ```
 
 ### **Módulos Principales**
@@ -131,12 +187,19 @@ src/
 - Servicios singleton
 - Configuración HTTP
 - Interceptores globales
+- Mock API Service e Interceptor
 
 #### **Shared Module**
 - Componentes reutilizables
 - Pipes personalizados
 - Directivas comunes
 - Módulos de Angular Material
+
+#### **Store Module** ⭐ **NUEVO**
+- **App Store:** Estado global (autenticación, título de página)
+- **Feature Stores:** Estado específico por módulo
+- **Effects:** Manejo de side effects y llamadas API
+- **Selectors:** Consultas eficientes del estado
 
 #### **Features Module**
 - Componentes específicos de la aplicación
@@ -156,7 +219,7 @@ npm install
 ```bash
 npm run start:full
 ```
-Ejecuta Angular + JSON Server + Proxy. Los datos se guardan automáticamente.
+Ejecuta Angular + JSON Server + Proxy + Mock API. Los datos se guardan automáticamente.
 
 #### **Opción 2: Solo Angular (sin persistencia)**
 ```bash
@@ -181,6 +244,7 @@ npm run json-server
 ### 🔑 **Credenciales de Acceso**
 - **Administrador:** `admin` / `admin123`
 - **Usuario Regular:** `user` / `user123`
+- **Profesor:** `profesor` / `prof123`
 
 ### Construir para Producción
 ```bash
@@ -211,13 +275,15 @@ Los problemas de CORS se resuelven automáticamente con el proxy configurado al 
 
 - **Angular 20** - Framework principal
 - **Angular Material** - Componentes de UI
+- **NgRx** - Gestión de estado ⭐ **NUEVO**
 - **RxJS** - Programación reactiva
 - **TypeScript** - Lenguaje de programación
 - **SCSS** - Preprocesador CSS
 - **Angular Router** - Navegación
 - **Reactive Forms** - Formularios reactivos
-- **JSON Server** - API REST simulada ⭐ NUEVO
-- **Concurrently** - Ejecutar múltiples comandos ⭐ NUEVO
+- **JSON Server** - API REST simulada
+- **Concurrently** - Ejecutar múltiples comandos
+- **Mock API** - Simulación de servicios externos ⭐ **NUEVO**
 
 ## 📱 Navegación
 
@@ -300,6 +366,54 @@ Los problemas de CORS se resuelven automáticamente con el proxy configurado al 
 - Gráficos de barras
 - Lista completa con métricas
 
+## 🌐 Mock API - Simulación de Servicios Externos ⭐ **NUEVO**
+
+### **¿Qué es el Mock API?**
+
+El Mock API simula una API externa real con las siguientes características:
+
+- **URLs externas:** `https://api.ejemplo.com/v1/`
+- **Delays de red:** 500-2000ms aleatorios
+- **Errores simulados:** 3% de probabilidad de error
+- **Timeouts:** 1% de probabilidad de timeout
+- **Headers de autenticación:** Bearer Token
+- **Datos reales:** Usa JSON Server como backend
+
+### **Cómo Funciona**
+
+1. **Interceptor HTTP:** Intercepta todas las llamadas HTTP
+2. **Simulación de red:** Aplica delays y errores aleatorios
+3. **Redirección:** Redirige a JSON Server local
+4. **Headers:** Agrega headers de autenticación
+5. **Respuesta:** Devuelve datos reales con experiencia de red
+
+### **Verificar el Mock API**
+
+#### **En las Herramientas de Desarrollo (F12):**
+
+1. **Network Tab:**
+   - Busca llamadas a `https://api.ejemplo.com/v1/`
+   - Observa delays en "Timing" (500-2000ms)
+   - Ve headers: `Authorization: Bearer mock-jwt-token-...`
+
+2. **Console Tab:**
+   - Busca logs: `"Mock API Error: [mensaje]"`
+   - Información sobre delays simulados
+
+#### **Comportamientos Visibles:**
+- ⏱️ **Delays:** Las páginas tardan más en cargar
+- 🔐 **Headers:** Autenticación Bearer Token
+- 🚫 **Errores:** Ocasionales errores de red
+- ⏰ **Timeouts:** Raros timeouts de conexión
+
+### **Beneficios del Mock API**
+
+- ✅ **Experiencia realista:** Simula condiciones de red reales
+- ✅ **Testing robusto:** Manejo de errores y timeouts
+- ✅ **Desarrollo offline:** Funciona sin API externa
+- ✅ **Cumple requisitos:** Mock API obligatorio para el proyecto
+- ✅ **Fácil migración:** Cambio simple a API real
+
 ## 🧪 Testing
 
 ### Ejecutar Tests Unitarios
@@ -314,14 +428,23 @@ ng e2e
 
 ## 📚 Características Avanzadas
 
-### **Gestión de Estado**
-- Servicios con BehaviorSubject para reactividad
-- Observables para comunicación entre componentes
-- Manejo de errores centralizado con fallbacks
-- **Estado de Autenticación:** Gestión de sesión con localStorage
-- **Autorización por Roles:** Control de acceso dinámico
+### **Gestión de Estado con NgRx** ⭐ **NUEVO**
+- **Store centralizado** para estado global
+- **Feature stores** para cada módulo
+- **Effects** para side effects y llamadas API
+- **Actions y Reducers** para cambios predecibles
+- **Selectors** para consultas eficientes
+- **Store DevTools** para debugging
 
-### **Persistencia de Datos** ⭐ NUEVO
+### **Mock API** ⭐ **NUEVO**
+- **Simulación de API externa** con delays realistas
+- **Interceptor HTTP** para condiciones de red
+- **Errores aleatorios** para testing de robustez
+- **Timeouts simulados** para manejo de errores
+- **Headers de autenticación** Bearer Token
+- **URLs externas simuladas** (`https://api.ejemplo.com/v1`)
+
+### **Persistencia de Datos**
 - JSON Server para APIs REST reales
 - Sincronización automática con `src/db.json`
 - Operaciones CRUD completamente funcionales
@@ -355,7 +478,7 @@ ng e2e
 
 ---
 
-*Proyecto optimizado con arquitectura modular siguiendo las mejores prácticas de Angular 20, incluyendo sistema completo de autenticación y autorización.*
+*Proyecto optimizado con arquitectura modular siguiendo las mejores prácticas de Angular 20, incluyendo sistema completo de autenticación, autorización, gestión de estado con NgRx y Mock API para simulación de servicios externos.*
 
 ## 🎯 Criterios de Evaluación Cumplidos
 
@@ -391,14 +514,34 @@ ng e2e
 ✅ **Logout Seguro:** Limpieza de sesión y redirección  
 ✅ **Componentes de Detalle:** Vistas completas con des-inscripción  
 
+### **Gestión de Estado con NgRx** ⭐ NUEVO
+✅ **Store centralizado:** Estado global de la aplicación  
+✅ **Feature stores:** Estado específico por módulo  
+✅ **Effects:** Manejo de side effects y llamadas API  
+✅ **Actions y Reducers:** Cambios de estado predecibles  
+✅ **Selectors:** Consultas eficientes del estado  
+✅ **Store DevTools:** Debugging y desarrollo  
+
+### **Mock API** ⭐ NUEVO
+✅ **Simulación de API externa:** URLs como `https://api.ejemplo.com/v1`  
+✅ **Delays de red:** 500-2000ms aleatorios  
+✅ **Errores simulados:** 3% de probabilidad de error  
+✅ **Timeouts:** 1% de probabilidad de timeout  
+✅ **Headers de autenticación:** Bearer Token  
+✅ **Interceptor HTTP:** Aplicación global  
+✅ **Cumple requisitos:** Mock API obligatorio implementado  
+
 ## 🏆 Resumen del Proyecto
 
 Este sistema académico completo incluye:
 - **4 entidades principales:** Estudiantes, Cursos, Inscripciones, Usuarios
 - **Sistema completo de autenticación** con roles y autorización
+- **Gestión de estado con NgRx** (Store, Effects, Actions, Reducers, Selectors)
+- **Mock API** para simulación de servicios externos
 - **Persistencia real** con JSON Server
-- **20+ componentes** Angular standalone
+- **25+ componentes** Angular standalone
 - **Arquitectura escalable** y modular
 - **UX excepcional** con Angular Material
 - **Validaciones robustas** en todos los formularios
 - **Componentes de detalle** con funcionalidades avanzadas
+- **Cumple todos los requisitos** del profesor para la entrega final
