@@ -56,12 +56,12 @@
               mat-raised-button 
               color="primary" 
               type="submit"
-              [disabled]="loading || loginForm.invalid"
+              [disabled]="(loading$ | async) || loginForm.invalid"
               class="login-button"
             >
-              <mat-icon *ngIf="!loading">login</mat-icon>
-              <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
-              {{ loading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+              <mat-icon *ngIf="!(loading$ | async)">login</mat-icon>
+              <mat-spinner *ngIf="loading$ | async" diameter="20"></mat-spinner>
+              {{ (loading$ | async) ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
             </button>
           </div>
         </form>

@@ -10,8 +10,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Subject, takeUntil, filter } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../shared/entities';
+import * as AppActions from '../../store/app/app.actions';
 
 interface MenuItem {
   label: string;
@@ -90,7 +92,8 @@ export class Layout implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -122,11 +125,10 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.authService.logout();
+    this.store.dispatch(AppActions.logout());
     this.snackBar.open('Sesión cerrada exitosamente', 'Cerrar', {
       duration: 3000
     });
-    this.router.navigate(['/login']);
   }
 
   getUserDisplayName(): string {

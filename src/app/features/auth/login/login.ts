@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,8 +9,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginRequest } from '../../../shared/entities';
+import * as AppActions from '../../../store/app/app.actions';
+import * as AppSelectors from '../../../store/app/app.selectors';
 
 @Component({
   selector: 'app-login',
@@ -29,20 +34,38 @@ import { LoginRequest } from '../../../shared/entities';
   templateUrl: './login.html',
   styleUrls: ['./login.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
-  loading = false;
+  loading$: Observable<boolean>;
   hidePassword = true;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private store: Store
+  ) {
+    this.loading$ = this.store.select(AppSelectors.selectAppLoading);
+  }
 
   ngOnInit(): void {
     this.initForm();
+    
+    // Suscribirse a los cambios de autenticación
+    this.store.select(AppSelectors.selectIsAuthenticated)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isAuthenticated => {
+        if (isAuthenticated) {
+          this.router.navigate(['/dashboard']);
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private initForm(): void {
@@ -54,29 +77,10 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.loading = true;
       const credentials: LoginRequest = this.loginForm.value;
-
-      this.authService.login(credentials).subscribe({
-        next: (response) => {
-          this.loading = false;
-          this.snackBar.open(
-            `¡Bienvenido ${response.user.name}!`, 
-            'Cerrar', 
-            { duration: 3000 }
-          );
-          this.router.navigate(['/dashboard']);
-        },
-        error: (error) => {
-          this.loading = false;
-          this.snackBar.open(
-            'Credenciales inválidas. Intente nuevamente.', 
-            'Cerrar', 
-            { duration: 5000 }
-          );
-          console.error('Error de login:', error);
-        }
-      });
+      
+      // Dispatch login action
+      this.store.dispatch(AppActions.login(credentials));
     } else {
       this.markFormGroupTouched();
     }
