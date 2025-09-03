@@ -6,7 +6,7 @@
         Editar Estudiante
       </mat-card-title>
       <mat-card-subtitle>
-        Modifica los datos del estudiante {{ student?.name }} {{ student?.surname }}
+        Modifica los datos del estudiante {{ student?.firstName }} {{ student?.lastName }}
       </mat-card-subtitle>
     </mat-card-header>
 
@@ -23,9 +23,9 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Nombre</mat-label>
-            <input matInput formControlName="name" placeholder="Juan">
-            <mat-error *ngIf="studentForm.get('name')?.invalid">
-              {{ getErrorMessage('name') }}
+            <input matInput formControlName="firstName" placeholder="Juan">
+            <mat-error *ngIf="studentForm.get('firstName')?.invalid">
+              {{ getErrorMessage('firstName') }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -33,9 +33,9 @@
         <div class="form-row">
           <mat-form-field appearance="outline">
             <mat-label>Apellido</mat-label>
-            <input matInput formControlName="surname" placeholder="Pérez">
-            <mat-error *ngIf="studentForm.get('surname')?.invalid">
-              {{ getErrorMessage('surname') }}
+            <input matInput formControlName="lastName" placeholder="Pérez">
+            <mat-error *ngIf="studentForm.get('lastName')?.invalid">
+              {{ getErrorMessage('lastName') }}
             </mat-error>
           </mat-form-field>
 

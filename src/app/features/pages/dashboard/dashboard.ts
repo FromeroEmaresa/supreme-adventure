@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { StudentService } from '../../../core/services/student.service';
 import { Student } from '../../../shared/entities';
 import { Observable } from 'rxjs';
+import { ApiStatusComponent } from '../../../shared/components/api-status/api-status.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,8 @@ import { Observable } from 'rxjs';
   imports: [
     CommonModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    ApiStatusComponent
   ],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.scss']

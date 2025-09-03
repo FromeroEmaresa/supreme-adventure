@@ -45,7 +45,7 @@
           <div class="stat-info">
             <h3>{{ stats.topStudent.average }}</h3>
             <p>Mejor Promedio</p>
-            <small>{{ stats.topStudent.name }} {{ stats.topStudent.surname }}</small>
+            <small>{{ stats.topStudent.firstName }} {{ stats.topStudent.lastName }}</small>
           </div>
         </div>
       </mat-card-content>
@@ -64,5 +64,10 @@
         </ul>
       </mat-card-content>
     </mat-card>
+  </div>
+
+  <!-- Estado de la API -->
+  <div class="api-status-section">
+    <app-api-status></app-api-status>
   </div>
 </div> 

@@ -90,7 +90,7 @@ export class EnrollmentsPage implements OnInit, OnDestroy {
       width: '400px',
       data: {
         title: 'Confirmar eliminación',
-        message: `¿Estás seguro de que deseas eliminar la inscripción de "${student?.name} ${student?.surname}" en el curso "${course?.name}"?`,
+        message: `¿Estás seguro de que deseas eliminar la inscripción de "${student?.firstName} ${student?.lastName}" en el curso "${course?.name}"?`,
         type: 'delete',
         enrollment: enrollment
       }
