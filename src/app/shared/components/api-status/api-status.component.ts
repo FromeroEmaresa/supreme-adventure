@@ -157,8 +157,19 @@ export class ApiStatusComponent implements OnInit {
   }
 
   switchToLocalApi(): void {
-    this.store.dispatch(AppActions.switchToLocalApi());
-    this.isCloudApi = false;
-    console.log('🏠 Switched to Local Mock API');
+    try {
+      console.log('🏠 Attempting to switch to Local Mock API...');
+      this.store.dispatch(AppActions.switchToLocalApi());
+      this.isCloudApi = false;
+      console.log('🏠 Switched to Local Mock API successfully');
+      
+      // Mostrar mensaje de confirmación
+      setTimeout(() => {
+        alert('Cambiando a Local Mock API. La página se recargará en unos segundos...');
+      }, 100);
+    } catch (error) {
+      console.error('🏠 Error switching to Local Mock API:', error);
+      alert('Error al cambiar a Local Mock API. Intenta nuevamente.');
+    }
   }
 }

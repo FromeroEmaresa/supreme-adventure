@@ -94,9 +94,16 @@ export class AppEffects {
           }
         }
         
-        // Cambiar a Cloud Mock API por defecto
-        switchToCloudApi();
-        console.log('🌐 App Effects: Switched to Cloud Mock API by default');
+        // Verificar si hay preferencia guardada
+        const storedApi = localStorage.getItem('useCloudMockApi');
+        if (storedApi === 'false') {
+          switchToLocalApi();
+          console.log('🏠 App Effects: Switched to Local Mock API from stored preference');
+        } else {
+          // Cambiar a Cloud Mock API por defecto
+          switchToCloudApi();
+          console.log('🌐 App Effects: Switched to Cloud Mock API by default');
+        }
         
         return AppActions.initializeAppSuccess();
       })
@@ -121,7 +128,12 @@ export class AppEffects {
       tap(() => {
         console.log('🏠 App Effects: Switching to Local Mock API');
         switchToLocalApi();
+        
+        // Recargar la página para aplicar el cambio
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
       })
     );
-  });
+  }, { dispatch: false });
 }

@@ -61,15 +61,22 @@ export function getApiConfig(): ApiConfig {
 // Función para cambiar entre APIs
 export function switchToCloudApi(): void {
   API_CONFIG.useCloudMockApi = true;
+  localStorage.setItem('useCloudMockApi', 'true');
   console.log('🌐 Switched to Cloud Mock API');
 }
 
 export function switchToLocalApi(): void {
   API_CONFIG.useCloudMockApi = false;
+  localStorage.setItem('useCloudMockApi', 'false');
   console.log('🏠 Switched to Local Mock API');
 }
 
 // Función para verificar si estamos usando Cloud API
 export function isUsingCloudApi(): boolean {
+  // Intentar obtener del localStorage primero
+  const stored = localStorage.getItem('useCloudMockApi');
+  if (stored !== null) {
+    API_CONFIG.useCloudMockApi = stored === 'true';
+  }
   return API_CONFIG.useCloudMockApi;
 }
