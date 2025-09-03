@@ -17,9 +17,9 @@ export class FullnamePipe implements PipeTransform {
     if (typeof studentOrName === 'string' && surname) {
       // Uso tradicional: nombre y apellido separados
       return `${studentOrName} ${surname}`;
-    } else if (typeof studentOrName === 'object' && studentOrName.name && studentOrName.surname) {
+    } else if (typeof studentOrName === 'object' && studentOrName.firstName && studentOrName.lastName) {
       // Uso con objeto Student
-      return `${studentOrName.name} ${studentOrName.surname}`;
+      return `${studentOrName.firstName} ${studentOrName.lastName}`;
     }
     
     return '';

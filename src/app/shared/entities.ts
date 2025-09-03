@@ -1,8 +1,10 @@
 export interface Student {
-  name: string;
-  surname: string;
-  age: number;
+  id: string;
   dni: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  email: string;
   average: number;
 }
 
@@ -15,9 +17,61 @@ export interface Course {
 
 export interface Enrollment {
   id: string;
-  studentDni: string;
+  studentId: string;
   courseId: string;
   enrollmentDate: Date;
+}
+
+// Interfaces para requests de creación
+export interface CreateStudentRequest {
+  dni: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  email: string;
+  average?: number;
+}
+
+export interface CreateCourseRequest {
+  name: string;
+  description: string;
+  credits: number;
+}
+
+export interface CreateEnrollmentRequest {
+  studentId: string;
+  courseId: string;
+}
+
+export interface CreateUserRequest {
+  username: string;
+  password: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'user';
+}
+
+// Interfaces para requests de actualización
+export interface UpdateStudentRequest {
+  dni: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  email: string;
+}
+
+export interface UpdateCourseRequest {
+  name: string;
+  description: string;
+  credits: number;
+}
+
+export interface UpdateUserRequest {
+  username: string;
+  password: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'user';
 }
 
 export interface DialogData {
@@ -29,14 +83,14 @@ export interface DialogData {
   enrollment?: Enrollment;
 }
 
-// Nuevas interfaces para autenticación
+// Interfaces para autenticación
 export interface User {
   id: string;
   username: string;
   password: string;
   role: 'admin' | 'user';
   name: string;
-  email?: string;
+  email: string;
 }
 
 export interface LoginRequest {
