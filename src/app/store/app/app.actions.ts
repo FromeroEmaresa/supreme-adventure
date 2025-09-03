@@ -35,6 +35,10 @@ export const clearPageTitle = createAction('[App] Clear Page Title');
 export const initializeApp = createAction('[App] Initialize App');
 
 export const initializeAppSuccess = createAction(
-  '[App] Initialize App Success',
-  props<{ user: User; token: string }>()
+  '[App] Initialize App Success'
 );
+
+// API Switching Actions
+export const switchToCloudApi = createAction('[App] Switch to Cloud API');
+
+export const switchToLocalApi = createAction('[App] Switch to Local API');

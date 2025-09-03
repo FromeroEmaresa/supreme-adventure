@@ -57,10 +57,8 @@ export const appReducer = createReducer(
   })),
   
   // Initialize App
-  on(AppActions.initializeAppSuccess, (state, { user, token }) => ({
+  on(AppActions.initializeAppSuccess, (state) => ({
     ...state,
-    user,
-    token,
-    isAuthenticated: true
+    loading: false
   }))
 );
