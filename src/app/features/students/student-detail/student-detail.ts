@@ -71,7 +71,7 @@ export class StudentDetail implements OnInit, OnDestroy {
         return this.enrollmentService.getEnrollments();
       }),
       switchMap(enrollments => {
-        const studentEnrollments = enrollments.filter(e => e.studentDni === this.student?.dni);
+        const studentEnrollments = enrollments.filter(e => e.studentId === this.student?.id);
         return combineLatest(
           studentEnrollments.map(enrollment =>
             this.courseService.getCourseById(enrollment.courseId).pipe(
@@ -97,7 +97,7 @@ export class StudentDetail implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmUnenrollDialog, {
       width: '400px',
       data: {
-        studentName: this.student ? `${this.student.name} ${this.student.surname}` : '',
+        studentName: this.student ? `${this.student.firstName} ${this.student.lastName}` : '',
         courseName: course.name
       }
     });
@@ -108,7 +108,7 @@ export class StudentDetail implements OnInit, OnDestroy {
           next: () => {
             this.enrolledCourses = this.enrolledCourses.filter(c => c.id !== course.id);
             this.snackBar.open(
-              `${this.student?.name} ha sido des-inscrito de ${course.name}`,
+              `${this.student?.firstName} ha sido des-inscrito de ${course.name}`,
               'Cerrar',
               { duration: 3000 }
             );

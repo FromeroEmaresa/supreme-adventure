@@ -27,25 +27,31 @@ export class StudentService {
           console.error('Error cargando estudiantes:', error);
           // Datos mock de respaldo
           this.students = [
+                          {
+                id: "1",
+                firstName: "Juan",
+                lastName: "Pérez",
+                age: 20,
+                dni: "12345678",
+                email: "juan@example.com",
+                average: 8.5
+              },
             {
-              name: "Juan",
-              surname: "Pérez",
-              age: 20,
-              dni: "12345678",
-              average: 8.5
-            },
-            {
-              name: "María",
-              surname: "Gómez",
+              id: "2",
+              firstName: "María",
+              lastName: "Gómez",
               age: 22,
               dni: "87654321",
+              email: "maria@example.com",
               average: 9.0
             },
             {
-              name: "Pedro",
-              surname: "López",
+              id: "3",
+              firstName: "Pedro",
+              lastName: "López",
               age: 21,
               dni: "11223344",
+              email: "pedro@example.com",
               average: 7.5
             }
           ];
@@ -65,6 +71,13 @@ export class StudentService {
   getStudentByDni(dni: string): Observable<Student | null> {
     return this.students$.pipe(
       map(students => students.find(student => student.dni === dni) || null)
+    );
+  }
+
+  // Obtener estudiante por ID
+  getStudentById(id: string): Observable<Student | null> {
+    return this.students$.pipe(
+      map(students => students.find(student => student.id === id) || null)
     );
   }
 
