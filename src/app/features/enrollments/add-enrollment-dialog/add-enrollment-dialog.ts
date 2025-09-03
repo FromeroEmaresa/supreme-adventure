@@ -66,7 +66,7 @@ export class AddEnrollmentDialog implements OnInit {
         students.forEach(student => {
           courses.forEach(course => {
             const isEnrolled = enrollments.some(e => 
-              e.studentDni === student.dni && e.courseId === course.id
+              e.studentId === student.id && e.courseId === course.id
             );
             if (!isEnrolled) {
               combinations.push({ student, course });

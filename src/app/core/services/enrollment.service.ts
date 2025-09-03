@@ -39,19 +39,19 @@ export class EnrollmentService {
           this.enrollments = [
             {
               id: "1",
-              studentDni: "12345678",
+              studentId: "1",
               courseId: "1",
               enrollmentDate: new Date('2024-01-15T10:00:00.000Z')
             },
             {
               id: "2",
-              studentDni: "87654321", 
+              studentId: "2", 
               courseId: "2",
               enrollmentDate: new Date('2024-01-20T14:30:00.000Z')
             },
             {
               id: "3",
-              studentDni: "12345678",
+              studentId: "1",
               courseId: "3", 
               enrollmentDate: new Date('2024-02-01T09:15:00.000Z')
             }
@@ -82,7 +82,7 @@ export class EnrollmentService {
       map(([enrollments, students, courses]) => {
         return enrollments.map(enrollment => ({
           enrollment,
-          student: students.find(s => s.dni === enrollment.studentDni) || null,
+          student: students.find(s => s.id === enrollment.studentId) || null,
           course: courses.find(c => c.id === enrollment.courseId) || null
         }));
       })
@@ -90,9 +90,9 @@ export class EnrollmentService {
   }
 
   // Obtener inscripciones por estudiante
-  getEnrollmentsByStudent(studentDni: string): Observable<Enrollment[]> {
+  getEnrollmentsByStudent(studentId: string): Observable<Enrollment[]> {
     return this.enrollments$.pipe(
-      map(enrollments => enrollments.filter(e => e.studentDni === studentDni))
+      map(enrollments => enrollments.filter(e => e.studentId === studentId))
     );
   }
 
@@ -104,9 +104,9 @@ export class EnrollmentService {
   }
 
   // Obtener cursos de un estudiante
-  getStudentCourses(studentDni: string): Observable<Course[]> {
+  getStudentCourses(studentId: string): Observable<Course[]> {
     return combineLatest([
-      this.getEnrollmentsByStudent(studentDni),
+      this.getEnrollmentsByStudent(studentId),
       this.courseService.getCourses()
     ]).pipe(
       map(([enrollments, courses]) => {
@@ -123,21 +123,21 @@ export class EnrollmentService {
       this.studentService.getStudents()
     ]).pipe(
       map(([enrollments, students]) => {
-        const studentDnis = enrollments.map(e => e.studentDni);
-        return students.filter(s => studentDnis.includes(s.dni));
+        const studentIds = enrollments.map(e => e.studentId);
+        return students.filter(s => studentIds.includes(s.id));
       })
     );
   }
 
   // Agregar nueva inscripción
-  addEnrollment(studentDni: string, courseId: string): Observable<Enrollment> {
+  addEnrollment(studentId: string, courseId: string): Observable<Enrollment> {
     // Verificar que el estudiante no esté ya inscrito en el curso
-    if (this.enrollments.some(e => e.studentDni === studentDni && e.courseId === courseId)) {
+    if (this.enrollments.some(e => e.studentId === studentId && e.courseId === courseId)) {
       throw new Error('El estudiante ya está inscrito en este curso');
     }
 
     // Verificar que el estudiante exista
-    if (!this.studentService.getStudentByDni(studentDni)) {
+    if (!this.studentService.getStudentById(studentId)) {
       throw new Error('Estudiante no encontrado');
     }
 
@@ -147,7 +147,7 @@ export class EnrollmentService {
     }
 
     const newEnrollmentData = {
-      studentDni,
+      studentId,
       courseId,
       enrollmentDate: new Date().toISOString()
     };
@@ -167,7 +167,7 @@ export class EnrollmentService {
         const newId = (Math.max(...this.enrollments.map(e => parseInt(e.id) || 0), 0) + 1).toString();
         const newEnrollment: Enrollment = {
           id: newId,
-          studentDni,
+          studentId,
           courseId,
           enrollmentDate: new Date()
         };
@@ -202,8 +202,8 @@ export class EnrollmentService {
   }
 
   // Verificar si existe una inscripción
-  enrollmentExists(studentDni: string, courseId: string): boolean {
-    return this.enrollments.some(e => e.studentDni === studentDni && e.courseId === courseId);
+  enrollmentExists(studentId: string, courseId: string): boolean {
+    return this.enrollments.some(e => e.studentId === studentId && e.courseId === courseId);
   }
 
   // Obtener estadísticas
@@ -227,7 +227,7 @@ export class EnrollmentService {
         }
 
         const total = enrollments.length;
-        const uniqueStudents = new Set(enrollments.map(e => e.studentDni)).size;
+        const uniqueStudents = new Set(enrollments.map(e => e.studentId)).size;
         const uniqueCourses = new Set(enrollments.map(e => e.courseId)).size;
         const avgEnrollmentsPerStudent = total / uniqueStudents;
         const avgEnrollmentsPerCourse = total / uniqueCourses;
