@@ -27,7 +27,7 @@ export const API_CONFIG: ApiConfig = {
     jsonPlaceholder: 'https://jsonplaceholder.typicode.com',
     
     // MockAPI.io - API personalizada para tu sistema
-    mockApiIo: 'https://mockapi.io/projects/64f8b8b0b88a4e4b8b8b8b8b',
+    mockApiIo: 'https://68bedb5c9c70953d96ede86f.mockapi.io',
     
     // JSON Server en la nube (Heroku/Railway)
     heroku: 'https://fromero-e01-api.herokuapp.com',

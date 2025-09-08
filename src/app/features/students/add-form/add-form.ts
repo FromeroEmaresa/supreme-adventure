@@ -47,15 +47,19 @@ export class AddForm implements OnInit {
         Validators.pattern(/^\d{8}$/),
         this.dniValidator.bind(this)
       ]],
-      name: ['', [
+      firstName: ['', [
         Validators.required,
         Validators.minLength(2),
         Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
       ]],
-      surname: ['', [
+      lastName: ['', [
         Validators.required,
         Validators.minLength(2),
         Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/)
+      ]],
+      email: ['', [
+        Validators.required,
+        Validators.email
       ]],
       age: ['', [
         Validators.required,
@@ -107,7 +111,7 @@ export class AddForm implements OnInit {
       if (controlName === 'dni') {
         return 'DNI debe tener 8 dígitos';
       }
-      if (controlName === 'name' || controlName === 'surname') {
+      if (controlName === 'firstName' || controlName === 'lastName') {
         return `${this.getFieldName(controlName)} solo puede contener letras`;
       }
     }
@@ -142,8 +146,9 @@ export class AddForm implements OnInit {
   getFieldName(controlName: string): string {
     const names: { [key: string]: string } = {
       dni: 'DNI',
-      name: 'Nombre',
-      surname: 'Apellido',
+      firstName: 'Nombre',
+      lastName: 'Apellido',
+      email: 'Email',
       age: 'Edad',
       average: 'Promedio'
     };

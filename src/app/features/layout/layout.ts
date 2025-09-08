@@ -11,9 +11,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Subject, takeUntil, filter } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../shared/entities';
 import * as AppActions from '../../store/app/app.actions';
+import * as AppSelectors from '../../store/app/app.selectors';
 
 interface MenuItem {
   label: string;
@@ -90,18 +90,17 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   constructor(
-    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
     private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.authService.currentUser$
+    this.store.select(AppSelectors.selectCurrentUser)
       .pipe(takeUntil(this.destroy$))
       .subscribe(user => {
         this.currentUser = user;
-        this.isAdmin = this.authService.isAdmin();
+        this.isAdmin = user?.role === 'admin';
       });
 
     // Escuchar cambios de ruta para actualizar el título

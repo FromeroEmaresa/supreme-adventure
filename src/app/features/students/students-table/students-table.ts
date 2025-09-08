@@ -7,7 +7,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { Student } from '../../../shared/entities';
 import { FullnamePipe } from '../../../shared/pipes/fullname-pipe';
-import { AuthService } from '../../../core/services/auth.service';
+import { Store } from '@ngrx/store';
+import * as AppSelectors from '../../../store/app/app.selectors';
 
 @Component({
   selector: 'app-students-table',
@@ -34,8 +35,10 @@ export class StudentsTable {
   @Output() editar = new EventEmitter<Student>();
   @Output() verDetalle = new EventEmitter<Student>();
 
-  constructor(private authService: AuthService) {
-    this.isAdmin = this.authService.isAdmin();
+  constructor(private store: Store) {
+    this.store.select(AppSelectors.selectIsAdmin).subscribe(isAdmin => {
+      this.isAdmin = !!isAdmin;
+    });
   }
 
   eliminarEstudiante(estudiante: Student) {
@@ -57,11 +60,7 @@ export class StudentsTable {
     return 'poor';
   }
 
-  canEdit(): boolean {
-    return this.isAdmin;
-  }
+  canEdit(): boolean { return this.isAdmin === true; }
 
-  canDelete(): boolean {
-    return this.isAdmin;
-  }
+  canDelete(): boolean { return this.isAdmin === true; }
 } 

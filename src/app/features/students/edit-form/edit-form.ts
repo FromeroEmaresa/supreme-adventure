@@ -66,8 +66,8 @@ export class EditForm implements OnInit {
   private initForm(): void {
     this.studentForm = this.fb.group({
       dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]],
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      surname: ['', [Validators.required, Validators.minLength(2)]],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       age: ['', [Validators.required, Validators.min(16), Validators.max(100)]],
       average: ['', [Validators.required, Validators.min(1), Validators.max(10)]]
     });

@@ -30,7 +30,7 @@ export class CloudMockApiService {
     posts: 'https://jsonplaceholder.typicode.com/posts',
     
     // MockAPI.io - API personalizada para tu sistema
-    academic: 'https://mockapi.io/projects/64f8b8b0b88a4e4b8b8b8b8b',
+    academic: 'https://68bedb5c9c70953d96ede86f.mockapi.io/api',
     
     // JSON Server en la nube (Heroku/Railway)
     jsonServer: 'https://fromero-e01-api.herokuapp.com',
@@ -79,46 +79,32 @@ export class CloudMockApiService {
   // ===== AUTHENTICATION =====
   
   login(credentials: LoginRequest): Observable<AuthResponse> {
-    console.log('🌐 Cloud Mock API: Login request to cloud service');
-    
-    return this.simulateNetworkDelay().pipe(
-      switchMap(() => {
-        // Simular validación en la nube
-        if (credentials.username === 'admin' && credentials.password === 'admin123') {
-          const mockUser: User = {
-            id: '1',
-            username: 'admin',
-            password: 'admin123',
-            name: 'Administrador',
-            email: 'admin@sistema.com',
-            role: 'admin' as const
-          };
-          
-          const response: AuthResponse = {
-            user: mockUser,
-            token: `cloud-jwt-token-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-          };
-          
-          return of(response);
-        } else if (credentials.username === 'user' && credentials.password === 'user123') {
-          const mockUser: User = {
-            id: '2',
-            username: 'user',
-            password: 'user123',
-            name: 'Usuario Regular',
-            email: 'user@sistema.com',
-            role: 'user' as const
-          };
-          
-          const response: AuthResponse = {
-            user: mockUser,
-            token: `cloud-jwt-token-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
-          };
-          
-          return of(response);
-        } else {
-          return throwError(() => new Error('Invalid credentials'));
+    console.log('🌐 Cloud Mock API: Login against MockAPI.io');
+    const url = `${this.CLOUD_APIS.academic}/login`;
+    return this.http.get<any[]>(url, {
+      headers: this.getAuthHeaders()
+    }).pipe(
+      map(records => {
+        const match = records.find(r => r.username === credentials.username && r.password === credentials.password);
+        if (!match) {
+          throw new Error('Invalid credentials');
         }
+        const role = (match.role === 'admin' || match.role === 'user')
+          ? (match.role as 'admin' | 'user')
+          : (match.username === 'admin' ? ('admin' as const) : ('user' as const));
+        const user: User = {
+          id: String(match.id ?? match.objectId ?? match._id ?? '0'),
+          username: match.username,
+          password: match.password,
+          name: match.username,
+          email: `${match.username}@sistema.com`,
+          role
+        };
+        const response: AuthResponse = {
+          user,
+          token: `mockapi-jwt-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+        };
+        return response;
       }),
       catchError(error => {
         console.error('🌐 Cloud Mock API: Login error', error);
@@ -146,43 +132,38 @@ export class CloudMockApiService {
   // ===== STUDENTS =====
   
   getStudents(): Observable<Student[]> {
-    console.log('🌐 Cloud Mock API: Fetching students from cloud');
-    
-    // Usar JSONPlaceholder para simular datos reales de la nube
-    return this.http.get<any[]>(`${this.CLOUD_APIS.users}`).pipe(
-      map(users => users.slice(0, 10).map((user, index) => ({
-        id: (index + 1).toString(),
-        dni: (10000000 + index).toString(),
-        firstName: user.name.split(' ')[0],
-        lastName: user.name.split(' ').slice(1).join(' ') || 'Apellido',
-        age: 18 + (index % 20),
-        email: user.email,
-        average: parseFloat((7 + (index % 3) + Math.random()).toFixed(2))
-      }))),
+    console.log('🌐 Cloud Mock API: Fetching students from MockAPI.io');
+    const url = `${this.CLOUD_APIS.academic}/students`;
+    return this.http.get<any[]>(url, { headers: this.getAuthHeaders() }).pipe(
+      map(items => items.map((it: any) => ({
+        id: String(it.id),
+        dni: String(it.dni),
+        firstName: it.firstName,
+        lastName: it.lastName,
+        age: Number(it.age ?? 0),
+        email: it.email ?? `${it.firstName}.${it.lastName}@example.com`,
+        average: Number(it.average ?? 0)
+      }) as Student)),
       catchError(error => {
         console.error('🌐 Cloud Mock API: Error fetching students', error);
-        // Fallback a datos locales si la API falla
         return this.getLocalStudents();
       })
     );
   }
 
   createStudent(student: CreateStudentRequest): Observable<Student> {
-    console.log('🌐 Cloud Mock API: Creating student in cloud');
-    
-    return this.simulateNetworkDelay().pipe(
-      map(() => {
-        const newStudent: Student = {
-          id: Date.now().toString(),
-          dni: student.dni,
-          firstName: student.firstName,
-          lastName: student.lastName,
-          age: student.age,
-          email: student.email,
-          average: student.average || 0
-        };
-        return newStudent;
-      }),
+    console.log('🌐 Cloud Mock API: Creating student in MockAPI.io');
+    const url = `${this.CLOUD_APIS.academic}/students`;
+    return this.http.post<any>(url, student, { headers: this.getAuthHeaders() }).pipe(
+      map((created: any) => ({
+        id: String(created.id),
+        dni: String(created.dni),
+        firstName: created.firstName,
+        lastName: created.lastName,
+        age: Number(created.age ?? student.age),
+        email: created.email ?? student.email,
+        average: Number(created.average ?? student.average ?? 0)
+      }) as Student),
       catchError(error => {
         console.error('🌐 Cloud Mock API: Error creating student', error);
         return throwError(() => error);
@@ -191,21 +172,18 @@ export class CloudMockApiService {
   }
 
   updateStudent(id: string, student: UpdateStudentRequest): Observable<Student> {
-    console.log('🌐 Cloud Mock API: Updating student in cloud');
-    
-    return this.simulateNetworkDelay().pipe(
-      map(() => {
-        const updatedStudent: Student = {
-          id,
-          dni: student.dni,
-          firstName: student.firstName,
-          lastName: student.lastName,
-          age: student.age,
-          email: student.email,
-          average: 0 // Valor por defecto para actualizaciones
-        };
-        return updatedStudent;
-      }),
+    console.log('🌐 Cloud Mock API: Updating student in MockAPI.io');
+    const url = `${this.CLOUD_APIS.academic}/students/${id}`;
+    return this.http.put<any>(url, student, { headers: this.getAuthHeaders() }).pipe(
+      map((updated: any) => ({
+        id: String(updated.id ?? id),
+        dni: String(updated.dni ?? student.dni),
+        firstName: updated.firstName ?? student.firstName,
+        lastName: updated.lastName ?? student.lastName,
+        age: Number(updated.age ?? student.age),
+        email: updated.email ?? student.email,
+        average: Number(updated.average ?? 0)
+      }) as Student),
       catchError(error => {
         console.error('🌐 Cloud Mock API: Error updating student', error);
         return throwError(() => error);
@@ -214,10 +192,9 @@ export class CloudMockApiService {
   }
 
   deleteStudent(id: string): Observable<void> {
-    console.log('🌐 Cloud Mock API: Deleting student from cloud');
-    
-    return this.simulateNetworkDelay().pipe(
-      map(() => void 0),
+    console.log('🌐 Cloud Mock API: Deleting student from MockAPI.io');
+    const url = `${this.CLOUD_APIS.academic}/students/${id}`;
+    return this.http.delete<void>(url, { headers: this.getAuthHeaders() }).pipe(
       catchError(error => {
         console.error('🌐 Cloud Mock API: Error deleting student', error);
         return throwError(() => error);

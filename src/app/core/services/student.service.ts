@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
 import { Student } from '../../shared/entities';
+import { CloudMockApiService } from './cloud-mock-api.service';
+import { isUsingCloudApi } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +14,17 @@ export class StudentService {
   private studentsSubject = new BehaviorSubject<Student[]>([]);
   public students$ = this.studentsSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cloudApi: CloudMockApiService) {
     this.loadInitialData();
   }
 
   private loadInitialData(): void {
-    this.http.get<Student[]>('/api/students')
+    const useCloud = isUsingCloudApi();
+    const source$ = useCloud
+      ? this.cloudApi.getStudents()
+      : this.http.get<Student[]>('/api/students');
+
+    source$
       .pipe(
         tap(data => {
           this.students = data;
@@ -27,15 +34,15 @@ export class StudentService {
           console.error('Error cargando estudiantes:', error);
           // Datos mock de respaldo
           this.students = [
-                          {
-                id: "1",
-                firstName: "Juan",
-                lastName: "Pérez",
-                age: 20,
-                dni: "12345678",
-                email: "juan@example.com",
-                average: 8.5
-              },
+            {
+              id: "1",
+              firstName: "Juan",
+              lastName: "Pérez",
+              age: 20,
+              dni: "12345678",
+              email: "juan@example.com",
+              average: 8.5
+            },
             {
               id: "2",
               firstName: "María",
@@ -88,7 +95,19 @@ export class StudentService {
       throw new Error('Ya existe un estudiante con ese DNI');
     }
 
-    return this.http.post<Student>('/api/students', student).pipe(
+    const useCloud = isUsingCloudApi();
+    const request$ = useCloud
+      ? this.cloudApi.createStudent({
+          dni: student.dni,
+          firstName: student.firstName,
+          lastName: student.lastName,
+          age: student.age,
+          email: student.email,
+          average: student.average
+        })
+      : this.http.post<Student>('/api/students', student);
+
+    return request$.pipe(
       tap(newStudent => {
         this.students = [...this.students, newStudent];
         this.studentsSubject.next(this.students);
@@ -111,7 +130,18 @@ export class StudentService {
       throw new Error('Estudiante no encontrado');
     }
 
-    return this.http.put<Student>(`/api/students/${index}`, updatedStudent).pipe(
+    const useCloud = isUsingCloudApi();
+    const request$ = useCloud
+      ? this.cloudApi.updateStudent(this.students[index].id, {
+          dni: updatedStudent.dni,
+          firstName: updatedStudent.firstName,
+          lastName: updatedStudent.lastName,
+          age: updatedStudent.age,
+          email: updatedStudent.email
+        })
+      : this.http.put<Student>(`/api/students/${index}`, updatedStudent);
+
+    return request$.pipe(
       tap(student => {
         this.students[index] = { ...student };
         this.students = [...this.students];
@@ -135,7 +165,13 @@ export class StudentService {
       throw new Error('Estudiante no encontrado');
     }
 
-    return this.http.delete<void>(`/api/students/${index}`).pipe(
+    const useCloud = isUsingCloudApi();
+    const studentId = this.students[index].id;
+    const request$ = useCloud
+      ? this.cloudApi.deleteStudent(studentId)
+      : this.http.delete<void>(`/api/students/${index}`);
+
+    return request$.pipe(
       tap(() => {
         this.students = this.students.filter(s => s.dni !== dni);
         this.studentsSubject.next(this.students);

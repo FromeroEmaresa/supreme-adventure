@@ -8,6 +8,11 @@ export const selectUser = createSelector(
   (state: AppState) => state.user
 );
 
+export const selectCurrentUser = createSelector(
+  selectAppState,
+  (state: AppState) => state.user
+);
+
 export const selectIsAuthenticated = createSelector(
   selectAppState,
   (state: AppState) => state.isAuthenticated

@@ -106,7 +106,7 @@ export class CourseDetail implements OnInit, OnDestroy {
       if (result) {
         this.enrollmentService.deleteEnrollment(student.enrollmentId).subscribe({
           next: () => {
-            this.enrolledStudents = this.enrolledStudents.filter(s => s.dni !== student.dni);
+            this.enrolledStudents = this.enrolledStudents.filter(s => s.id !== student.id);
             this.snackBar.open(
               `${student.firstName} ha sido des-inscrito de ${this.course?.name}`,
               'Cerrar',
